@@ -8,32 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import net.team6.protectivepaws.model.Dog;
+import net.team6.protectivepaws.model.Bird;
 import net.team6.protectivepaws.utils.JDBCUtils;
 
 
-public class DogDaoImpl implements DogDao {
+public class BirdDaoImpl implements BirdDao {
 
-	private static final String INSERT_DOGS_SQL = "INSERT INTO dogs"
+	private static final String INSERT_BIRDS_SQL = "INSERT INTO birds"
 			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
 
-	private static final String SELECT_DOG_BY_ID = "select id,name,supplies_needed,care from dogs where id =?";
-	private static final String SELECT_ALL_DOGS = "select * from dogs";
-	private static final String DELETE_DOG_BY_ID = "delete from dogs where id = ?;";
-	private static final String UPDATE_DOG = "update dogs set name = ?, supplies_needed = ?, care = ? where id = ?";
+	private static final String SELECT_BIRD_BY_ID = "select id,name,supplies_needed,care from birds where id =?";
+	private static final String SELECT_ALL_BIRDS = "select * from birds";
+	private static final String DELETE_BIRD_BY_ID = "delete from birds where id = ?;";
+	private static final String UPDATE_BIRD = "update birds set name = ?, supplies_needed = ?, care = ? where id = ?";
 
-	public DogDaoImpl() {
+	public BirdDaoImpl() {
 	}
 
 	@Override
-	public void insertDog(Dog dog) throws SQLException {
-		System.out.println(INSERT_DOGS_SQL);
+	public void insertBird(Bird bird) throws SQLException {
+		System.out.println(INSERT_BIRDS_SQL);
 		// try-with-resource statement will auto close the connection.
 		try (Connection connection = JDBCUtils.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_DOGS_SQL)) {
-			preparedStatement.setString(1, dog.getName());
-			preparedStatement.setLong(2, dog.getsupplies_needed());
-			preparedStatement.setLong(3, dog.getCare());
+				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BIRDS_SQL)) {
+			preparedStatement.setString(1, bird.getName());
+			preparedStatement.setLong(2, bird.getsupplies_needed());
+			preparedStatement.setLong(3, bird.getCare());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
@@ -42,14 +42,14 @@ public class DogDaoImpl implements DogDao {
 	}
 
 	@Override
-	public Dog selectDog(long dogId) {
+	public Bird selectBird(long birdId) {
 		
-		Dog dog = null;
+		Bird bird = null;
 		// attempts to establish a connection
 		try (Connection connection = JDBCUtils.getConnection();
 				// creates a new statement using the connection object
-				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_DOG_BY_ID);) {
-			preparedStatement.setLong(1, dogId);
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BIRD_BY_ID);) {
+			preparedStatement.setLong(1, birdId);
 			System.out.println(preparedStatement);
 			// execute the query or update the query
 			ResultSet rs = preparedStatement.executeQuery();
@@ -60,25 +60,25 @@ public class DogDaoImpl implements DogDao {
 				String name = rs.getString("name");
 				Long supplies_needed = rs.getLong("supplies_needed");
 				Long care = rs.getLong("care");
-				dog = new Dog(id, name, supplies_needed, care);
+				bird = new Bird(id, name, supplies_needed, care);
 			}
 		} catch (SQLException exception) {
 			JDBCUtils.printSQLException(exception);
 		}
-		return dog;
+		return bird;
 	}
 
 	@Override
-	public List<Dog> selectAllDogs() {
+	public List<Bird> selectAllBirds() {
 
 		
-		List<Dog> dogs = new ArrayList<>();
+		List<Bird> birds = new ArrayList<>();
 
 		
 		try (Connection connection = JDBCUtils.getConnection();
 
 				
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DOGS);) {
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BIRDS);) {
 			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
@@ -86,19 +86,19 @@ public class DogDaoImpl implements DogDao {
 				String name = rs.getString("name");
 				Long supplies_needed = rs.getLong("supplies_needed");
 				Long care = rs.getLong("care");
-				dogs.add(new Dog(id, name, supplies_needed, care));
+				birds.add(new Bird(id, name, supplies_needed, care));
 			}
 		} catch (SQLException exception) {
 			JDBCUtils.printSQLException(exception);
 		}
-		return dogs;
+		return birds;
 	}
 
 	@Override
-	public boolean deleteDog(int id) throws SQLException {
+	public boolean deleteBird(int id) throws SQLException {
 		boolean rowDeleted;
 		try (Connection connection = JDBCUtils.getConnection();
-				PreparedStatement statement = connection.prepareStatement(DELETE_DOG_BY_ID);) {
+				PreparedStatement statement = connection.prepareStatement(DELETE_BIRD_BY_ID);) {
 			statement.setInt(1, id);
 			rowDeleted = statement.executeUpdate() > 0;
 		}
@@ -106,14 +106,14 @@ public class DogDaoImpl implements DogDao {
 	}
 
 	@Override
-	public boolean updateDog(Dog dog) throws SQLException {
+	public boolean updateBird(Bird bird) throws SQLException {
 		boolean rowUpdated;
 		try (Connection connection = JDBCUtils.getConnection();
-				PreparedStatement statement = connection.prepareStatement(UPDATE_DOG);) {
-			statement.setString(1, dog.getName());
-			statement.setLong(2, dog.getsupplies_needed());
-			statement.setLong(3, dog.getCare());
-			statement.setLong(4, dog.getId());
+				PreparedStatement statement = connection.prepareStatement(UPDATE_BIRD);) {
+			statement.setString(1, bird.getName());
+			statement.setLong(2, bird.getsupplies_needed());
+			statement.setLong(3, bird.getCare());
+			statement.setLong(4, bird.getId());
 			rowUpdated = statement.executeUpdate() > 0;
 		}
 		return rowUpdated;

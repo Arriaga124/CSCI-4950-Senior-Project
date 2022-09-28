@@ -1,7 +1,8 @@
-package net.team6.protectivepaws.web;
+package deleted;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,19 +12,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.javaguides.todoapp.dao.TodoDao;
+import net.javaguides.todoapp.dao.TodoDaoImpl;
+import net.javaguides.todoapp.model.Todo;
+
 import net.team6.protectivepaws.dao.DogDao;
 import net.team6.protectivepaws.dao.DogDaoImpl;
 import net.team6.protectivepaws.model.Dog;
 
+/**
+ * ControllerServlet.java This servlet acts as a page controller for the
+ * application, handling all requests from the todo.
+ * 
+ * @email Ramesh Fadatare
+ */
 
-
-@WebServlet("/")
-public class DogController extends HttpServlet {
+@WebServlet("//")
+public class TodoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private TodoDao todoDAO;
 	private DogDao dogDAO;
 
 	public void init() {
-		dogDAO = new DogDaoImpl();
+		todoDAO = new TodoDaoImpl();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -41,16 +52,16 @@ public class DogController extends HttpServlet {
 				showNewForm(request, response);
 				break;
 			case "/insert":
-				insertDog(request, response);
+				insertTodo(request, response);
 				break;
 			case "/delete":
-				deleteDog(request, response);
+				deleteTodo(request, response);
 				break;
 			case "/edit":
 				showEditForm(request, response);
 				break;
 			case "/update":
-				updateDog(request, response);
+				updateTodo(request, response);
 				break;
 			case "/list":
 				listDog(request, response);
@@ -75,50 +86,55 @@ public class DogController extends HttpServlet {
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/dog-form.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("todo/todo-form.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Dog existingDog = dogDAO.selectDog(id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/dog-form.jsp");
-		request.setAttribute("dog", existingDog);
+		Todo existingTodo = todoDAO.selectTodo(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("todo/todo-form.jsp");
+		request.setAttribute("todo", existingTodo);
 		dispatcher.forward(request, response);
 
 	}
 
-	private void insertDog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void insertTodo(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		
-		String name = request.getParameter("name");
-		int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-		int care = Integer.parseInt(request.getParameter("care"));
+		String title = request.getParameter("title");
+		String username = request.getParameter("username");
+		String description = request.getParameter("description");
 		
-
+		/*DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+		LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"),df);*/
 		
-		
-		Dog newDog = new Dog(name, supplies_needed, care);
-		dogDAO.insertDog(newDog);
+		boolean isDone = Boolean.valueOf(request.getParameter("isDone"));
+		Todo newTodo = new Todo(title, username, description, LocalDate.now(), isDone);
+		todoDAO.insertTodo(newTodo);
 		response.sendRedirect("list");
 	}
 
-	private void updateDog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		
+	private void updateTodo(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		String name = request.getParameter("name");
-		int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-		int care = Integer.parseInt(request.getParameter("care"));
 		
-		Dog updateDog = new Dog(id, name, supplies_needed, care);
-		dogDAO.updateDog(updateDog);
+		String title = request.getParameter("title");
+		String username = request.getParameter("username");
+		String description = request.getParameter("description");
+		//DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+		LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"));
+		
+		boolean isDone = Boolean.valueOf(request.getParameter("isDone"));
+		Todo updateTodo = new Todo(id, title, username, description, targetDate, isDone);
+		
+		todoDAO.updateTodo(updateTodo);
 		
 		response.sendRedirect("list");
 	}
 
-	private void deleteDog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void deleteTodo(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		dogDAO.deleteDog(id);
+		todoDAO.deleteTodo(id);
 		response.sendRedirect("list");
 	}
 }

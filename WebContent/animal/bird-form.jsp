@@ -35,44 +35,44 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div class="card-body">
-				<c:if test="${dog != null}">
-					<form action="updateDog" method="post">
+				<c:if test="${bird != null}">
+					<form action="updateBird" method="post">
 				</c:if>
-				<c:if test="${dog == null}">
-					<form action="insertDog" method="post">
+				<c:if test="${bird == null}">
+					<form action="insertBird" method="post">
 				</c:if>
 
 				<caption>
 					<h2>
-						<c:if test="${dog != null}">
-            			Edit Dog
+						<c:if test="${bird != null}">
+            			Edit Bird
             		</c:if>
-						<c:if test="${dog == null}">
-            			Enroll New Dog
+						<c:if test="${bird == null}">
+            			Enroll New Bird
             		</c:if>
 					</h2>
 				</caption>
 
-				<c:if test="${dog != null}">
-					<input type="hidden" name="id" value="<c:out value='${dog.id}' />" />
+				<c:if test="${bird != null}">
+					<input type="hidden" name="id" value="<c:out value='${bird.id}' />" />
 				</c:if>
 
 
 				<fieldset class="form-group">
-					<label>Dog Name</label> <input type="text"
-						value="<c:out value='${dog.name}' />" class="form-control"
+					<label>Bird Name</label> <input type="text"
+						value="<c:out value='${bird.name}' />" class="form-control"
 						name="name" required="required" >
 				</fieldset>
 
 				<fieldset class="form-group">
 					<label>Amount of Needed Supplies (Meals required daily)</label> <input type="number"
-						value="<c:out value='${dog.supplies_needed}' />" class="form-control"
+						value="<c:out value='${bird.supplies_needed}' />" class="form-control"
 						name="supplies_needed" required="required">
 				</fieldset>
 
 				<fieldset class="form-group">
 					<label>Care Needed (Hours of care needed daily)</label> <input type="number"
-						value="<c:out value='${dog.care}' />" class="form-control"
+						value="<c:out value='${bird.care}' />" class="form-control"
 						name="care" required="required">
 				</fieldset>
 

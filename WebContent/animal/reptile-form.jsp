@@ -35,44 +35,44 @@
 	<div class="container col-md-5">
 		<div class="card">
 			<div class="card-body">
-				<c:if test="${dog != null}">
-					<form action="updateDog" method="post">
+				<c:if test="${reptile != null}">
+					<form action="updateReptile" method="post">
 				</c:if>
-				<c:if test="${dog == null}">
-					<form action="insertDog" method="post">
+				<c:if test="${reptile == null}">
+					<form action="insertReptile" method="post">
 				</c:if>
 
 				<caption>
 					<h2>
-						<c:if test="${dog != null}">
-            			Edit Dog
+						<c:if test="${reptile != null}">
+            			Edit Reptile
             		</c:if>
-						<c:if test="${dog == null}">
-            			Enroll New Dog
+						<c:if test="${reptile == null}">
+            			Enroll New Reptile
             		</c:if>
 					</h2>
 				</caption>
 
-				<c:if test="${dog != null}">
-					<input type="hidden" name="id" value="<c:out value='${dog.id}' />" />
+				<c:if test="${reptile != null}">
+					<input type="hidden" name="id" value="<c:out value='${reptile.id}' />" />
 				</c:if>
 
 
 				<fieldset class="form-group">
-					<label>Dog Name</label> <input type="text"
-						value="<c:out value='${dog.name}' />" class="form-control"
+					<label>Reptile Name</label> <input type="text"
+						value="<c:out value='${reptile.name}' />" class="form-control"
 						name="name" required="required" >
 				</fieldset>
 
 				<fieldset class="form-group">
 					<label>Amount of Needed Supplies (Meals required daily)</label> <input type="number"
-						value="<c:out value='${dog.supplies_needed}' />" class="form-control"
+						value="<c:out value='${reptile.supplies_needed}' />" class="form-control"
 						name="supplies_needed" required="required">
 				</fieldset>
 
 				<fieldset class="form-group">
 					<label>Care Needed (Hours of care needed daily)</label> <input type="number"
-						value="<c:out value='${dog.care}' />" class="form-control"
+						value="<c:out value='${reptile.care}' />" class="form-control"
 						name="care" required="required">
 				</fieldset>
 
