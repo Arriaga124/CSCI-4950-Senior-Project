@@ -33,12 +33,12 @@
 			</ul>
 			
 			<ul class = "navbar-nav">
-				<li><a href = "<%=request.getContextPath()%>/supply_list"
+				<li><a href = "<%=request.getContextPath()%>/supply-list"
 					class = "nav-link">Supplies</a></li>
 			</ul>
 			
 			<ul class = "navbar-nav">
-				<li><a href = "<%=request.getContextPath()%>/staff_list"
+				<li><a href = "<%=request.getContextPath()%>/staff-list"
 					class="nav-link">Staff</a></li>
 			</ul>
 
@@ -55,55 +55,41 @@
 		
 
 		<div class = "container">
-		
-			<h3 class = "text-center">Staff and Volunteers</h3>
-			
+	
+			<h3 class = "text-center">Supplies</h3>
 			<hr>
-			
 			<br>
 			<h3>Supplies</h3>
 			<table class = "table table-bordered">
-			
 				<thead>
-				
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
-						<th>Supplies Needed</th>
-						<th>Care Needed</th>
+						<th>Type</th>
+						<th>Animal</th>
+						<th>Amount</th>
 						<th>Options</th>
 					</tr>
 					
 				</thead>
-				
 				<tbody>
-					<!--   for (Todo todo: todos) {  -->
-					<c:forEach var = "dog" items = "${listDog}">
+					<c:forEach var = "supply" items = "${listSupply}">
 
 						<tr>
-							<td><c:out value="${dog.id}" /></td>
-							<td><c:out value="${dog.name}" /></td>
-							<td><c:out value="${dog.supplies_needed} Meal(s)" /></td>
-							<td><c:out value="${dog.care} Hour(s)" /></td>
+							<td><c:out value="${supply.id}" /></td>
+							<td><c:out value="${supply.type}" /></td>
+							<td><c:out value="${supply.animal}" /></td>
+							<td><c:out value="${supply.amount}" /></td>
 
-							<td><a href="edit?id=<c:out value='${dog.id}' />">Edit</a>
+							<td><a href="editSupply?id=<c:out value='${supply.id}' />">Edit</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?id=<c:out value='${dog.id}' />">Delete</a></td>
-
-							<!--  <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button>
-          							<button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td> -->
+								href="deleteSupply?id=<c:out value='${supply.id}' />">Delete</a></td>
 						</tr>
 					</c:forEach>
-					<!-- } -->
 				</tbody>
-
 			</table>
-			
-			
-			
 			<div class = "container text-left">
 
-				<a href = "<%=request.getContextPath()%>/new" class = "btn btn-success">Add Other</a>
+				<a href = "<%=request.getContextPath()%>/newSupply" class = "btn btn-success">Add Supplies</a>
 			</div>
 			
 			<br>

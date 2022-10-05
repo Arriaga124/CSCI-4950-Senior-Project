@@ -28,11 +28,11 @@
 					class = "nav-link">Animals</a></li>
 			</ul>
 			<ul class = "navbar-nav">
-				<li><a href = "<%=request.getContextPath()%>/supply_list"
+				<li><a href = "<%=request.getContextPath()%>/supply-list"
 					class = "nav-link">Supplies</a></li>
 			</ul>
 			<ul class = "navbar-nav">
-				<li><a href = "<%=request.getContextPath()%>/staff_list"
+				<li><a href = "<%=request.getContextPath()%>/staff-list"
 					class="nav-link">Staff</a></li>
 			</ul>
 			<ul class = "navbar-nav navbar-collapse justify-content-end">

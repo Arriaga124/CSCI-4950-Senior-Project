@@ -35,6 +35,14 @@ import net.team6.protectivepaws.dao.OtherDao;
 import net.team6.protectivepaws.dao.OtherDaoImpl;
 import net.team6.protectivepaws.model.Other;
 
+import net.team6.protectivepaws.dao.StaffDao;
+import net.team6.protectivepaws.dao.StaffDaoImpl;
+import net.team6.protectivepaws.model.Staff;
+
+import net.team6.protectivepaws.dao.SupplyDao;
+import net.team6.protectivepaws.dao.SupplyDaoImpl;
+import net.team6.protectivepaws.model.Supply;
+
 
 @WebServlet("/")
 public class MainController extends HttpServlet {
@@ -45,6 +53,8 @@ public class MainController extends HttpServlet {
 	private ReptileDao reptileDAO;
 	private HorseDao horseDAO;
 	private OtherDao otherDAO;
+	private StaffDao staffDAO;
+	private SupplyDao supplyDAO;
 
 	public void init() {
 		dogDAO = new DogDaoImpl();
@@ -53,6 +63,8 @@ public class MainController extends HttpServlet {
 		reptileDAO = new ReptileDaoImpl();
 		horseDAO = new HorseDaoImpl();
 		otherDAO = new OtherDaoImpl();
+		staffDAO = new StaffDaoImpl();
+		supplyDAO = new SupplyDaoImpl();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -72,6 +84,8 @@ public class MainController extends HttpServlet {
 				listAnimals(request, response);
 				break;
 				
+				
+		
 			//Dog//
 			
 			case "/newDog":
@@ -182,14 +196,44 @@ public class MainController extends HttpServlet {
 				
 			//Staff//
 				
-			case "/staff_list":
+			case "/staff-list":
 				listStaff(request, response);
+				break;
+			case "/newStaff":
+				showNewStaffForm(request, response);
+				break;
+			case "/insertStaff":
+				insertStaff(request, response);
+				break;
+			case "/deleteStaff":
+				deleteStaff(request, response);
+				break;
+			case "/editStaff":
+				showStaffEditForm(request, response);
+				break;
+			case "/updateStaff":
+				updateStaff(request, response);
 				break;
 				
 			//Supply//
 			
-			case "/supply_list":
+			case "/supply-list":
 				listSupplies(request, response);
+				break;
+			case "/newSupply":
+				showNewSupplyForm(request, response);
+				break;
+			case "/insertSupply":
+				insertSupply(request, response);
+				break;
+			case "/deleteSupply":
+				deleteSupply(request, response);
+				break;
+			case "/editSupply":
+				showSupplyEditForm(request, response);
+				break;
+			case "/updateSupply":
+				updateSupply(request, response);
 				break;
 				
 				
@@ -509,20 +553,113 @@ public class MainController extends HttpServlet {
 			response.sendRedirect("list");
 		}
 	//Staff/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 	private void listStaff(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		//List<Staff> listStaff = staffDAO.selectAllStaff();
-		//request.setAttribute("listStaff", listStaff);
+		List<Staff> listStaff = staffDAO.selectAllStaffs();
+		request.setAttribute("listStaff", listStaff);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/staff-list.jsp");
 		dispatcher.forward(request, response);
 	}
+	
+	private void showNewStaffForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/staff-form.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+
+	private void showStaffEditForm(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Staff existingStaff = staffDAO.selectStaff(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/staff-form.jsp");
+		request.setAttribute("staff", existingStaff);
+		dispatcher.forward(request, response);
+
+	}
+
+	private void insertStaff(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		
+		String name = request.getParameter("name");
+		String position = request.getParameter("position");
+		int time = Integer.parseInt(request.getParameter("time"));
+		int phone = Integer.parseInt(request.getParameter("phone"));
+		Staff newStaff = new Staff(name, position, time, phone);
+		staffDAO.insertStaff(newStaff);
+		response.sendRedirect("staff-list");
+	}
+
+	private void updateStaff(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		String name = request.getParameter("name");
+		String position = request.getParameter("position");
+		int time = Integer.parseInt(request.getParameter("time"));
+		int phone = Integer.parseInt(request.getParameter("phone"));
+		
+		Staff updateStaff = new Staff(id, name, position, time, phone);
+		staffDAO.updateStaff(updateStaff);
+		
+		response.sendRedirect("staff-list");
+	}
+
+	private void deleteStaff(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		staffDAO.deleteStaff(id);
+		response.sendRedirect("staff-list");
+	}
 	//Supply/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	private void listSupplies(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		//List<Staff> listStaff = staffDAO.selectAllStaff();
-		//request.setAttribute("listStaff", listStaff);
+		List<Supply> listSupply = supplyDAO.selectAllSupplys();
+		request.setAttribute("listSupply", listSupply);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/supply-list.jsp");
 		dispatcher.forward(request, response);
 	}
 	
+	private void showNewSupplyForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/supply-form.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	private void showSupplyEditForm(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Supply existingSupply = supplyDAO.selectSupply(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/supply-form.jsp");
+		request.setAttribute("supply", existingSupply);
+		dispatcher.forward(request, response);
+	}
+
+	private void insertSupply(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		
+		String type = request.getParameter("type");
+		String animal = request.getParameter("animal");
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		Supply newSupply = new Supply(type, animal, amount);
+		supplyDAO.insertSupply(newSupply);
+		response.sendRedirect("supply-list");
+	}
+
+	private void updateSupply(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		
+		int id = Integer.parseInt(request.getParameter("id"));
+		String type = request.getParameter("type");
+		String animal = request.getParameter("animal");
+		int amount = Integer.parseInt(request.getParameter("amount"));
+		Supply updateSupply = new Supply(id, type, animal, amount);
+		supplyDAO.updateSupply(updateSupply);
+		response.sendRedirect("supply-list");
+		
+		
+	}
+
+	private void deleteSupply(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		supplyDAO.deleteSupply(id);
+		response.sendRedirect("supply-list");
+	}
 }
