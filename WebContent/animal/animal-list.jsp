@@ -44,10 +44,18 @@
 	<div class = "row">
 		
 <!--//Dog/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->	
-
+		
+		
+			
 		<div class = "container">
 			<h3 class = "text-center">All Pets</h3>
 			<hr>
+			
+				<div class = "container text-right">
+				<a href = "<%=request.getContextPath()%>/check" class = "btn btn-success">verify</a>
+			</div>
+			
+			
 			<br>
 			<h3>Dogs</h3>
 			<table class = "table table-bordered">
@@ -79,7 +87,7 @@
 			<div class = "container text-left">
 				<a href = "<%=request.getContextPath()%>/newDog" class = "btn btn-success">Add Dog</a>
 			</div>
-			
+
 <!--//Cat/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->	
 			
 			<br>

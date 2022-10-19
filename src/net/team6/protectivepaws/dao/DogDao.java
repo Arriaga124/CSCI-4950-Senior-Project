@@ -12,6 +12,10 @@ public interface DogDao {
 	Dog selectDog(long dogId);
 
 	List<Dog> selectAllDogs();
+	
+	int selectAllDogsSupply();
+	
+	int selectAllDogsCare();
 
 	boolean deleteDog(int id) throws SQLException;
 

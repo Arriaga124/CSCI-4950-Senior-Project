@@ -15,7 +15,7 @@
 	<jsp:include page="../common/header.jsp"></jsp:include>
 	<div class="container col-md-8 col-md-offset-3" style="overflow: auto">
 		<h1>Shelter Sign In:</h1>
-		<form action="<%=request.getContextPath()%>/list" method="post">
+		<form action="<%=request.getContextPath()%>/login" method="post">
 
 			<div class="form-group">
 				<label for="uname">Username:</label> <input type="text"

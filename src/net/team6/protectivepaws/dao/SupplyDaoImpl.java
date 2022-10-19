@@ -18,6 +18,12 @@ public class SupplyDaoImpl implements SupplyDao {
 			+ "  (type, animal, amount) VALUES " + " (?, ?, ?);";
 
 	private static final String SELECT_SUPPLY_BY_ID = "select id,type,animal,amount from supply where id =?";
+	private static final String SELECT_SUPPLY_BY_DOG = "select amount from supply where animal = \"Dog\"";
+	private static final String SELECT_SUPPLY_BY_CAT = "select amount from supply where animal = \"Cat\"";
+	private static final String SELECT_SUPPLY_BY_BIRD = "select amount from supply where animal = \"Bird\"";
+	private static final String SELECT_SUPPLY_BY_REPTILE = "select amount from supply where animal = \"Reptile\"";
+	private static final String SELECT_SUPPLY_BY_HORSE = "select amount from supply where animal = \"Horse\"";
+	private static final String SELECT_SUPPLY_BY_OTHER = "select amount from supply where animal = \"Other\"";
 	private static final String SELECT_ALL_SUPPLY = "select * from supply";
 	private static final String DELETE_SUPPLY_BY_ID = "delete from supply where id = ?;";
 	private static final String UPDATE_SUPPLY = "update supply set type = ?, animal = ?, amount = ? where id = ?";
@@ -117,5 +123,113 @@ public class SupplyDaoImpl implements SupplyDao {
 			rowUpdated = statement.executeUpdate() > 0;
 		}
 		return rowUpdated;
+	}
+	
+	
+	public int selectAllDogSupply() {
+
+		int dogSupplyTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_DOG);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				dogSupplyTotal = (int)(rs.getLong("amount")+ dogSupplyTotal);
+				
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return dogSupplyTotal;
+	}
+	
+	@Override
+	public int selectAllCatSupply() {
+
+		int catSupplyTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_CAT);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				catSupplyTotal = (int)(rs.getLong("amount")+ catSupplyTotal);
+				
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return catSupplyTotal;
+	}
+	
+	@Override
+	public int selectAllBirdSupply() {
+
+		int birdSupplyTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_BIRD);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				birdSupplyTotal = (int)(rs.getLong("amount")+ birdSupplyTotal);
+				
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return birdSupplyTotal;
+	}
+	
+	@Override
+	public int selectAllReptileSupply() {
+
+		int reptileSupplyTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_REPTILE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				reptileSupplyTotal = (int)(rs.getLong("amount")+ reptileSupplyTotal);
+				
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return reptileSupplyTotal;
+	}
+	
+	@Override
+	public int selectAllHorseSupply() {
+
+		int horseSupplyTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_HORSE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				horseSupplyTotal = (int)(rs.getLong("amount")+ horseSupplyTotal);
+				
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return horseSupplyTotal;
+	}
+	
+	@Override
+	public int selectAllOtherSupply() {
+
+		int otherSupplyTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_OTHER);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				otherSupplyTotal = (int)(rs.getLong("amount")+ otherSupplyTotal);
+				
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return otherSupplyTotal;
 	}
 }

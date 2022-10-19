@@ -18,6 +18,8 @@ public class DogDaoImpl implements DogDao {
 			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
 
 	private static final String SELECT_DOG_BY_ID = "select id,name,supplies_needed,care from dogs where id =?";
+	private static final String SELECT_ALL_DOGS_SUPPLY = "select supplies_needed from dogs";
+	private static final String SELECT_ALL_DOGS_CARE = "select care from dogs";
 	private static final String SELECT_ALL_DOGS = "select * from dogs";
 	private static final String DELETE_DOG_BY_ID = "delete from dogs where id = ?;";
 	private static final String UPDATE_DOG = "update dogs set name = ?, supplies_needed = ?, care = ? where id = ?";
@@ -92,6 +94,39 @@ public class DogDaoImpl implements DogDao {
 			JDBCUtils.printSQLException(exception);
 		}
 		return dogs;
+	}
+	
+	
+	public int selectAllDogsSupply() {
+
+		int dogSupplyNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DOGS_SUPPLY);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				dogSupplyNeedTotal = (int)(rs.getLong("supplies_needed")+ dogSupplyNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return dogSupplyNeedTotal;
+	}
+	
+	public int selectAllDogsCare() {
+
+		int dogCareNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_DOGS_CARE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				dogCareNeedTotal = (int)(rs.getLong("care")+ dogCareNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return dogCareNeedTotal;
 	}
 
 	@Override

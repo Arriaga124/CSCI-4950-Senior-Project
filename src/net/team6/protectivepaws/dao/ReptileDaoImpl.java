@@ -14,9 +14,9 @@ import net.team6.protectivepaws.utils.JDBCUtils;
 
 public class ReptileDaoImpl implements ReptileDao {
 
-	private static final String INSERT_REPTILES_SQL = "INSERT INTO reptiles"
-			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
-
+	private static final String INSERT_REPTILES_SQL = "INSERT INTO reptiles"+"  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_ALL_REPTILES_SUPPLY = "select supplies_needed from reptiles";
+	private static final String SELECT_ALL_REPTILES_CARE = "select care from reptiles";
 	private static final String SELECT_REPTILE_BY_ID = "select id,name,supplies_needed,care from reptiles where id =?";
 	private static final String SELECT_ALL_REPTILES = "select * from reptiles";
 	private static final String DELETE_REPTILE_BY_ID = "delete from reptiles where id = ?;";
@@ -92,6 +92,39 @@ public class ReptileDaoImpl implements ReptileDao {
 			JDBCUtils.printSQLException(exception);
 		}
 		return reptiles;
+	}
+	
+	public int selectAllReptilesSupply() {
+
+		int reptileSupplyNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_REPTILES_SUPPLY);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				reptileSupplyNeedTotal = (int)(rs.getLong("supplies_needed")+ reptileSupplyNeedTotal);
+				//dogsSupply.add(new Dog(supplies_needed));
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return reptileSupplyNeedTotal;
+	}
+	
+	public int selectAllReptilesCare() {
+
+		int reptileCareNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_REPTILES_CARE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				reptileCareNeedTotal = (int)(rs.getLong("care")+ reptileCareNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return reptileCareNeedTotal;
 	}
 
 	@Override

@@ -14,9 +14,9 @@ import net.team6.protectivepaws.utils.JDBCUtils;
 
 public class CatDaoImpl implements CatDao {
 
-	private static final String INSERT_CATS_SQL = "INSERT INTO cats"
-			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
-
+	private static final String INSERT_CATS_SQL = "INSERT INTO cats"+"  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_ALL_CATS_SUPPLY = "select supplies_needed from cats";
+	private static final String SELECT_ALL_CATS_CARE = "select care from cats";
 	private static final String SELECT_CAT_BY_ID = "select id,name,supplies_needed,care from cats where id =?";
 	private static final String SELECT_ALL_CATS = "select * from cats";
 	private static final String DELETE_CAT_BY_ID = "delete from cats where id = ?;";
@@ -93,7 +93,40 @@ public class CatDaoImpl implements CatDao {
 		}
 		return cats;
 	}
+	
+	public int selectAllCatsSupply() {
 
+		int catSupplyNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CATS_SUPPLY);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				catSupplyNeedTotal = (int)(rs.getLong("supplies_needed")+ catSupplyNeedTotal);
+				//dogsSupply.add(new Dog(supplies_needed));
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return catSupplyNeedTotal;
+	}
+
+	public int selectAllCatsCare() {
+
+		int catCareNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CATS_CARE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				catCareNeedTotal = (int)(rs.getLong("care")+ catCareNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return catCareNeedTotal;
+	}
+	
 	@Override
 	public boolean deleteCat(int id) throws SQLException {
 		boolean rowDeleted;

@@ -12,6 +12,10 @@ public interface ReptileDao {
 	Reptile selectReptile(long ReptileId);
 
 	List<Reptile> selectAllReptiles();
+	
+	int selectAllReptilesSupply();
+	
+	int selectAllReptilesCare();
 
 	boolean deleteReptile(int id) throws SQLException;
 

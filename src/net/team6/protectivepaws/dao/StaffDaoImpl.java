@@ -21,6 +21,7 @@ public class StaffDaoImpl implements StaffDao {
 	private static final String SELECT_ALL_STAFF = "select * from staff";
 	private static final String DELETE_STAFF_BY_ID = "delete from staff where id = ?;";
 	private static final String UPDATE_STAFF = "update staff set name = ?, position = ?, time = ?, phone = ? where id = ?";
+	private static final String SELECT_TOTAL_CARE = "select time from staff;";
 
 	public StaffDaoImpl() {
 	}
@@ -122,4 +123,23 @@ public class StaffDaoImpl implements StaffDao {
 		}
 		return rowUpdated;
 	}
+
+
+public int selectAllCare() {
+
+	int careTotal = 0;
+	try (Connection connection = JDBCUtils.getConnection();	
+		PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TOTAL_CARE);) {
+		System.out.println(preparedStatement);
+		ResultSet rs = preparedStatement.executeQuery();
+		while (rs.next()) {
+			careTotal = (int)(rs.getLong("time")+ careTotal);
+			
+		}
+	} catch (SQLException exception) {
+		JDBCUtils.printSQLException(exception);
+	}
+	return careTotal;
+}
+
 }

@@ -14,9 +14,9 @@ import net.team6.protectivepaws.utils.JDBCUtils;
 
 public class BirdDaoImpl implements BirdDao {
 
-	private static final String INSERT_BIRDS_SQL = "INSERT INTO birds"
-			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
-
+	private static final String INSERT_BIRDS_SQL = "INSERT INTO birds"+"  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_ALL_BIRDS_SUPPLY = "select supplies_needed from birds";
+	private static final String SELECT_ALL_BIRDS_CARE = "select care from birds";
 	private static final String SELECT_BIRD_BY_ID = "select id,name,supplies_needed,care from birds where id =?";
 	private static final String SELECT_ALL_BIRDS = "select * from birds";
 	private static final String DELETE_BIRD_BY_ID = "delete from birds where id = ?;";
@@ -92,6 +92,39 @@ public class BirdDaoImpl implements BirdDao {
 			JDBCUtils.printSQLException(exception);
 		}
 		return birds;
+	}
+	
+	public int selectAllBirdsSupply() {
+
+		int birdSupplyNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BIRDS_SUPPLY);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				birdSupplyNeedTotal = (int)(rs.getLong("supplies_needed")+ birdSupplyNeedTotal);
+				//dogsSupply.add(new Dog(supplies_needed));
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return birdSupplyNeedTotal;
+	}
+	
+	public int selectAllBirdsCare() {
+
+		int birdCareNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BIRDS_CARE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				birdCareNeedTotal = (int)(rs.getLong("care")+ birdCareNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return birdCareNeedTotal;
 	}
 
 	@Override

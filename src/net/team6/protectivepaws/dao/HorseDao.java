@@ -12,6 +12,10 @@ public interface HorseDao {
 	Horse selectHorse(long HorseId);
 
 	List<Horse> selectAllHorses();
+	
+	int selectAllHorsesSupply();
+	
+	int selectAllHorsesCare();
 
 	boolean deleteHorse(int id) throws SQLException;
 

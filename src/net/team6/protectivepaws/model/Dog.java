@@ -27,6 +27,9 @@ public class Dog {
 		this.care = care;
 	}
 	
+	
+	
+	
 	public Long getId() {
 		return id;
 	}

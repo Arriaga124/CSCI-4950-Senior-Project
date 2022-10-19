@@ -13,6 +13,13 @@ public interface SupplyDao {
 
 	List<Supply> selectAllSupplys();
 
+	int selectAllDogSupply();
+	int selectAllCatSupply();
+	int selectAllBirdSupply();
+	int selectAllHorseSupply();
+	int selectAllReptileSupply();
+	int selectAllOtherSupply();
+	
 	boolean deleteSupply(int id) throws SQLException;
 
 	boolean updateSupply(Supply supply) throws SQLException;

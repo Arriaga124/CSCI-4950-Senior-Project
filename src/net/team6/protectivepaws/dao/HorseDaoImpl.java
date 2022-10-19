@@ -14,9 +14,9 @@ import net.team6.protectivepaws.utils.JDBCUtils;
 
 public class HorseDaoImpl implements HorseDao {
 
-	private static final String INSERT_HORSES_SQL = "INSERT INTO horses"
-			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
-
+	private static final String INSERT_HORSES_SQL = "INSERT INTO horses"+"  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_ALL_HORSES_SUPPLY = "select supplies_needed from horses";
+	private static final String SELECT_ALL_HORSES_CARE = "select care from horses";
 	private static final String SELECT_HORSE_BY_ID = "select id,name,supplies_needed,care from horses where id =?";
 	private static final String SELECT_ALL_HORSES = "select * from horses";
 	private static final String DELETE_HORSE_BY_ID = "delete from horses where id = ?;";
@@ -94,6 +94,39 @@ public class HorseDaoImpl implements HorseDao {
 		return horses;
 	}
 
+	public int selectAllHorsesSupply() {
+
+		int horseSupplyNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_HORSES_SUPPLY);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				horseSupplyNeedTotal = (int)(rs.getLong("supplies_needed")+ horseSupplyNeedTotal);
+				//dogsSupply.add(new Dog(supplies_needed));
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return horseSupplyNeedTotal;
+	}
+	
+	public int selectAllHorsesCare() {
+
+		int horseCareNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_HORSES_CARE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				horseCareNeedTotal = (int)(rs.getLong("care")+ horseCareNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return horseCareNeedTotal;
+	}
+	
 	@Override
 	public boolean deleteHorse(int id) throws SQLException {
 		boolean rowDeleted;

@@ -12,6 +12,10 @@ public interface BirdDao {
 	Bird selectBird(long BirdId);
 
 	List<Bird> selectAllBirds();
+	
+	int selectAllBirdsSupply();
+	
+	int selectAllBirdsCare();
 
 	boolean deleteBird(int id) throws SQLException;
 

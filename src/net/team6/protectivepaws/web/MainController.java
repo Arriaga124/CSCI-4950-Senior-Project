@@ -84,7 +84,17 @@ public class MainController extends HttpServlet {
 				listAnimals(request, response);
 				break;
 				
+			case "/check":
+				doCheck(request, response);
+				break;
 				
+			case "/valid":
+				showValid(request, response);
+				break;
+				
+			case "/notvalid":
+				showInvalid(request, response);
+				break;
 		
 			//Dog//
 			
@@ -262,6 +272,147 @@ public class MainController extends HttpServlet {
 		List<Other> listOther = otherDAO.selectAllOthers();
 		request.setAttribute("listOther", listOther);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-list.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	private void showValid(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/valid.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	private void showInvalid(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-list.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	
+	private void doCheck(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		
+		int dogSupplyNeedTotal = dogDAO.selectAllDogsSupply();
+		request.setAttribute("dogSupplyNeedTotal", dogSupplyNeedTotal);
+		int dogSupplyTotal = supplyDAO.selectAllDogSupply();
+		request.setAttribute("dogSupplyTotal", dogSupplyTotal);
+		int dogCareNeedTotal = dogDAO.selectAllDogsCare();
+		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
+		
+		int catSupplyNeedTotal = catDAO.selectAllCatsSupply();
+		request.setAttribute("catSupplyNeedTotal", catSupplyNeedTotal);
+		int catSupplyTotal = supplyDAO.selectAllCatSupply();
+		request.setAttribute("catSupplyTotal", catSupplyTotal);
+		int catCareNeedTotal = catDAO.selectAllCatsCare();
+		//request.setAttribute("catCareNeedTotal", catCareNeedTotal);
+		
+		int birdSupplyNeedTotal = birdDAO.selectAllBirdsSupply();
+		request.setAttribute("birdSupplyNeedTotal", birdSupplyNeedTotal);
+		int birdSupplyTotal = supplyDAO.selectAllBirdSupply();
+		request.setAttribute("birdSupplyTotal", birdSupplyTotal);
+		int birdCareNeedTotal = birdDAO.selectAllBirdsCare();
+		//request.setAttribute("birdCareNeedTotal", birdCareNeedTotal);
+		
+		int horseSupplyNeedTotal = horseDAO.selectAllHorsesSupply();
+		request.setAttribute("horseSupplyNeedTotal", horseSupplyNeedTotal);
+		int horseSupplyTotal = supplyDAO.selectAllHorseSupply();
+		request.setAttribute("horseSupplyTotal", horseSupplyTotal);
+		int horseCareNeedTotal = horseDAO.selectAllHorsesCare();
+		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
+		
+		int reptileSupplyNeedTotal = reptileDAO.selectAllReptilesSupply();
+		request.setAttribute("reptileSupplyNeedTotal", reptileSupplyNeedTotal);
+		int reptileSupplyTotal = supplyDAO.selectAllReptileSupply();
+		request.setAttribute("reptileSupplyTotal", reptileSupplyTotal);
+		int reptileCareNeedTotal = reptileDAO.selectAllReptilesCare();
+		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
+		
+		int otherSupplyNeedTotal = otherDAO.selectAllOthersSupply();
+		request.setAttribute("otherSupplyNeedTotal", otherSupplyNeedTotal);
+		int otherSupplyTotal = supplyDAO.selectAllOtherSupply();
+		request.setAttribute("otherSupplyTotal", otherSupplyTotal);
+		int otherCareNeedTotal = otherDAO.selectAllOthersCare();
+		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
+		
+		int careTotal = staffDAO.selectAllCare();
+		request.setAttribute("careTotal", careTotal);
+		
+		int careNeedTotal = otherCareNeedTotal + reptileCareNeedTotal + horseCareNeedTotal + birdCareNeedTotal + catCareNeedTotal + dogCareNeedTotal;
+		request.setAttribute("careNeedTotal", careNeedTotal);
+		
+		Boolean dogValidity;
+		Boolean catValidity;
+		Boolean birdValidity;
+		Boolean reptileValidity;
+		Boolean horseValidity;
+		Boolean otherValidity;
+		
+		if (dogSupplyTotal >= dogSupplyNeedTotal) {
+			dogValidity= true;
+			request.setAttribute("dogValidity", dogValidity);
+		}
+		if (dogSupplyTotal < dogSupplyNeedTotal) {
+			dogValidity= false;
+			request.setAttribute("dogValidity", dogValidity);
+		}
+		
+		if (catSupplyTotal >= catSupplyNeedTotal) {
+			catValidity= true;
+			request.setAttribute("catValidity", catValidity);
+			
+		}
+		if (catSupplyTotal < catSupplyNeedTotal) {
+			catValidity= false;
+			request.setAttribute("catValidity", catValidity);
+		}
+		
+		if (birdSupplyTotal >= birdSupplyNeedTotal) {
+			birdValidity= true;
+			request.setAttribute("birdValidity", birdValidity);
+		}
+		if (birdSupplyTotal < birdSupplyNeedTotal) {
+			birdValidity= false;
+			request.setAttribute("birdValidity", birdValidity);
+		}
+		
+		if (reptileSupplyTotal >= reptileSupplyNeedTotal) {
+			reptileValidity= true;
+			request.setAttribute("reptileValidity", reptileValidity);
+		}
+		if (reptileSupplyTotal < reptileSupplyNeedTotal) {
+			reptileValidity= false;
+			request.setAttribute("reptileValidity", reptileValidity);
+		}
+		
+		if (horseSupplyTotal >= horseSupplyNeedTotal) {
+			horseValidity= true;
+			request.setAttribute("horseValidity", horseValidity);
+		}
+		if (horseSupplyTotal < horseSupplyNeedTotal) {
+			horseValidity= false;
+			request.setAttribute("horseValidity", horseValidity);
+		}
+		
+		if (otherSupplyTotal >= otherSupplyNeedTotal) {
+			otherValidity= true;
+			request.setAttribute("otherValidity", otherValidity);
+		}
+		if (otherSupplyTotal < otherSupplyNeedTotal) {
+			otherValidity= false;
+			request.setAttribute("otherValidity", otherValidity);
+		}
+		
+		Boolean careValidity;
+		
+		if (careTotal >= careNeedTotal) {
+			careValidity= true;
+			request.setAttribute("careValidity", careValidity);
+		}
+		if (careTotal < careNeedTotal) {
+			careValidity= false;
+			request.setAttribute("careValidity", careValidity);
+		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/valid.jsp");
 		dispatcher.forward(request, response);
 	}
 	

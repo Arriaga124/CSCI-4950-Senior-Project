@@ -12,6 +12,8 @@ public interface StaffDao {
 	Staff selectStaff(long StaffId);
 
 	List<Staff> selectAllStaffs();
+	
+	int selectAllCare();
 
 	boolean deleteStaff(int id) throws SQLException;
 

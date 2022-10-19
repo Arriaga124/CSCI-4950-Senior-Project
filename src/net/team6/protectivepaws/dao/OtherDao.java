@@ -12,6 +12,10 @@ public interface OtherDao {
 	Other selectOther(long OtherId);
 
 	List<Other> selectAllOthers();
+	
+	int selectAllOthersSupply();
+	
+	int selectAllOthersCare();
 
 	boolean deleteOther(int id) throws SQLException;
 

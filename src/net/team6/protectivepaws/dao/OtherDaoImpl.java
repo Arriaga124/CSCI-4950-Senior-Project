@@ -14,9 +14,9 @@ import net.team6.protectivepaws.utils.JDBCUtils;
 
 public class OtherDaoImpl implements OtherDao {
 
-	private static final String INSERT_OTHERS_SQL = "INSERT INTO others"
-			+ "  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
-
+	private static final String INSERT_OTHERS_SQL = "INSERT INTO others"+"  (name, supplies_needed, care) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_ALL_OTHERS_SUPPLY = "select supplies_needed from others";
+	private static final String SELECT_ALL_OTHERS_CARE = "select care from others";
 	private static final String SELECT_OTHER_BY_ID = "select id,name,supplies_needed,care from others where id =?";
 	private static final String SELECT_ALL_OTHERS = "select * from others";
 	private static final String DELETE_OTHER_BY_ID = "delete from others where id = ?;";
@@ -92,6 +92,39 @@ public class OtherDaoImpl implements OtherDao {
 			JDBCUtils.printSQLException(exception);
 		}
 		return others;
+	}
+	
+	public int selectAllOthersSupply() {
+
+		int otherSupplyNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_OTHERS_SUPPLY);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				otherSupplyNeedTotal = (int)(rs.getLong("supplies_needed")+ otherSupplyNeedTotal);
+				//dogsSupply.add(new Dog(supplies_needed));
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return otherSupplyNeedTotal;
+	}
+	
+	public int selectAllOthersCare() {
+
+		int otherCareNeedTotal = 0;
+		try (Connection connection = JDBCUtils.getConnection();	
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_OTHERS_CARE);) {
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				otherCareNeedTotal = (int)(rs.getLong("care")+ otherCareNeedTotal);
+			}
+		} catch (SQLException exception) {
+			JDBCUtils.printSQLException(exception);
+		}
+		return otherCareNeedTotal;
 	}
 
 	@Override

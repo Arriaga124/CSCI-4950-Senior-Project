@@ -12,6 +12,10 @@ public interface CatDao {
 	Cat selectCat(long CatId);
 
 	List<Cat> selectAllCats();
+	
+	int selectAllCatsSupply();
+	
+	int selectAllCatsCare();
 
 	boolean deleteCat(int id) throws SQLException;
 
