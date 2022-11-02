@@ -15,18 +15,13 @@ import net.team6.protectivepaws.utils.JDBCUtils;
 public class SupplyDaoImpl implements SupplyDao {
 
 	private static final String INSERT_SUPPLY_SQL = "INSERT INTO supply"
-			+ "  (type, animal, amount) VALUES " + " (?, ?, ?);";
+			+ "  (supply_name, type, animal, amount) VALUES " + " (?, ?, ?, ?);";
 
-	private static final String SELECT_SUPPLY_BY_ID = "select id,type,animal,amount from supply where id =?";
-	private static final String SELECT_SUPPLY_BY_DOG = "select amount from supply where animal = \"Dog\"";
-	private static final String SELECT_SUPPLY_BY_CAT = "select amount from supply where animal = \"Cat\"";
-	private static final String SELECT_SUPPLY_BY_BIRD = "select amount from supply where animal = \"Bird\"";
-	private static final String SELECT_SUPPLY_BY_REPTILE = "select amount from supply where animal = \"Reptile\"";
-	private static final String SELECT_SUPPLY_BY_HORSE = "select amount from supply where animal = \"Horse\"";
-	private static final String SELECT_SUPPLY_BY_OTHER = "select amount from supply where animal = \"Other\"";
+	private static final String SELECT_SUPPLY_BY_ID = "select id,supply_name,type,animal,amount from supply where id =?";
+	private static final String SELECT_SUPPLY_BY_ANIMAL = "select amount from supply where animal = ? and type = \"Food\"";
 	private static final String SELECT_ALL_SUPPLY = "select * from supply";
 	private static final String DELETE_SUPPLY_BY_ID = "delete from supply where id = ?;";
-	private static final String UPDATE_SUPPLY = "update supply set type = ?, animal = ?, amount = ? where id = ?";
+	private static final String UPDATE_SUPPLY = "update supply set supply_name = ?, type = ?, animal = ?, amount = ? where id = ?";
 
 	public SupplyDaoImpl() {
 	}
@@ -37,9 +32,10 @@ public class SupplyDaoImpl implements SupplyDao {
 		// try-with-resource statement will auto close the connection.
 		try (Connection connection = JDBCUtils.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SUPPLY_SQL)) {
-			preparedStatement.setString(1, supply.getType());
-			preparedStatement.setString(2, supply.getAnimal());
-			preparedStatement.setLong(3, supply.getAmount());
+			preparedStatement.setString(1, supply.getSupply_name());
+			preparedStatement.setString(2, supply.getType());
+			preparedStatement.setString(3, supply.getAnimal());
+			preparedStatement.setLong(4, supply.getAmount());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
@@ -63,10 +59,11 @@ public class SupplyDaoImpl implements SupplyDao {
 			// process the rs object
 			while (rs.next()) {
 				long id = rs.getLong("id");
+				String supply_name = rs.getString("supply_name");
 				String type = rs.getString("type");
 				String animal = rs.getString("animal");
 				Long amount = rs.getLong("amount");
-				supply = new Supply(id, type, animal, amount);
+				supply = new Supply(id, supply_name, type, animal, amount);
 			}
 		} catch (SQLException exception) {
 			JDBCUtils.printSQLException(exception);
@@ -89,10 +86,11 @@ public class SupplyDaoImpl implements SupplyDao {
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				long id = rs.getLong("id");
+				String supply_name = rs.getString("supply_name");
 				String type = rs.getString("type");
 				String animal = rs.getString("animal");
 				Long amount = rs.getLong("amount");
-				supply.add(new Supply(id, type, animal, amount));
+				supply.add(new Supply(id, supply_name, type, animal, amount));
 			}
 		} catch (SQLException exception) {
 			JDBCUtils.printSQLException(exception);
@@ -116,120 +114,34 @@ public class SupplyDaoImpl implements SupplyDao {
 		boolean rowUpdated;
 		try (Connection connection = JDBCUtils.getConnection();
 				PreparedStatement statement = connection.prepareStatement(UPDATE_SUPPLY);) {
-			statement.setString(1, supply.getType());
-			statement.setString(2, supply.getAnimal());
-			statement.setLong(3, supply.getAmount());
-			statement.setLong(4, supply.getId());
+			statement.setString(1, supply.getSupply_name());
+			statement.setString(2, supply.getType());
+			statement.setString(3, supply.getAnimal());
+			statement.setLong(4, supply.getAmount());
+			statement.setLong(5, supply.getId());
 			rowUpdated = statement.executeUpdate() > 0;
 		}
 		return rowUpdated;
 	}
 	
 	
-	public int selectAllDogSupply() {
+	public int selectAllSuppliesBySpecies(String type) {
 
-		int dogSupplyTotal = 0;
+		int animalSupplyTotal = 0;
 		try (Connection connection = JDBCUtils.getConnection();	
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_DOG);) {
+			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_ANIMAL);) {
+			preparedStatement.setString(1, type);
 			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				dogSupplyTotal = (int)(rs.getLong("amount")+ dogSupplyTotal);
+				animalSupplyTotal = (int)(rs.getLong("amount")+ animalSupplyTotal);
 				
 			}
 		} catch (SQLException exception) {
 			JDBCUtils.printSQLException(exception);
 		}
-		return dogSupplyTotal;
+		return animalSupplyTotal;
 	}
 	
-	@Override
-	public int selectAllCatSupply() {
-
-		int catSupplyTotal = 0;
-		try (Connection connection = JDBCUtils.getConnection();	
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_CAT);) {
-			System.out.println(preparedStatement);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				catSupplyTotal = (int)(rs.getLong("amount")+ catSupplyTotal);
-				
-			}
-		} catch (SQLException exception) {
-			JDBCUtils.printSQLException(exception);
-		}
-		return catSupplyTotal;
-	}
 	
-	@Override
-	public int selectAllBirdSupply() {
-
-		int birdSupplyTotal = 0;
-		try (Connection connection = JDBCUtils.getConnection();	
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_BIRD);) {
-			System.out.println(preparedStatement);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				birdSupplyTotal = (int)(rs.getLong("amount")+ birdSupplyTotal);
-				
-			}
-		} catch (SQLException exception) {
-			JDBCUtils.printSQLException(exception);
-		}
-		return birdSupplyTotal;
-	}
-	
-	@Override
-	public int selectAllReptileSupply() {
-
-		int reptileSupplyTotal = 0;
-		try (Connection connection = JDBCUtils.getConnection();	
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_REPTILE);) {
-			System.out.println(preparedStatement);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				reptileSupplyTotal = (int)(rs.getLong("amount")+ reptileSupplyTotal);
-				
-			}
-		} catch (SQLException exception) {
-			JDBCUtils.printSQLException(exception);
-		}
-		return reptileSupplyTotal;
-	}
-	
-	@Override
-	public int selectAllHorseSupply() {
-
-		int horseSupplyTotal = 0;
-		try (Connection connection = JDBCUtils.getConnection();	
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_HORSE);) {
-			System.out.println(preparedStatement);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				horseSupplyTotal = (int)(rs.getLong("amount")+ horseSupplyTotal);
-				
-			}
-		} catch (SQLException exception) {
-			JDBCUtils.printSQLException(exception);
-		}
-		return horseSupplyTotal;
-	}
-	
-	@Override
-	public int selectAllOtherSupply() {
-
-		int otherSupplyTotal = 0;
-		try (Connection connection = JDBCUtils.getConnection();	
-			PreparedStatement preparedStatement = connection.prepareStatement(SELECT_SUPPLY_BY_OTHER);) {
-			System.out.println(preparedStatement);
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				otherSupplyTotal = (int)(rs.getLong("amount")+ otherSupplyTotal);
-				
-			}
-		} catch (SQLException exception) {
-			JDBCUtils.printSQLException(exception);
-		}
-		return otherSupplyTotal;
-	}
 }

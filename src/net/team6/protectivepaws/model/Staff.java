@@ -6,14 +6,14 @@ public class Staff {
 	private String name;
 	private String position;
 	private Long time;
-	private Long phone;
+	private String phone;
 	
 	
 	protected Staff() {
 		
 	}
 	
-	public Staff (long id, String name, String position, long time, long phone) {
+	public Staff (long id, String name, String position, long time, String phone) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -22,7 +22,7 @@ public class Staff {
 		this.phone = phone;
 	}
 
-	public Staff (String name, String position, long time, long phone){
+	public Staff (String name, String position, long time, String phone){
 		super();
 		this.name = name;
 		this.position = position;
@@ -62,11 +62,11 @@ public class Staff {
 		this.time = time;
 	}
 	
-	public Long getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Long phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

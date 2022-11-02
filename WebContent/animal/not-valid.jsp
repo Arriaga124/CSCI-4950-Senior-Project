@@ -14,24 +14,11 @@
 
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-md navbar-dark"
-			style="background-color: rgb(34,93,196)">
-			<div>
-				<a  class="navbar-brand"> Protective Paws</a>
-			</div>
 
-			<ul class="navbar-nav">
-				<li><a href="<%=request.getContextPath()%>/list"
-					class="nav-link">Animals</a></li>
-			</ul>
-
-			<ul class="navbar-nav navbar-collapse justify-content-end">
-				<li><a href="<%=request.getContextPath()%>/logout"
-					class="nav-link">Logout</a></li>
-			</ul>
-		</nav>
-	</header>
+	<!-- Includes navbar from navbar.jsp  -->
+	<jsp:include page="../common/navbar.jsp"></jsp:include>
+	
+	
 	<div class="container col-md-5">
 		<div class="card">
 			<div class="card-body">

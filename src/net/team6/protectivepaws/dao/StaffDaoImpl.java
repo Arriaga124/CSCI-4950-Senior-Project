@@ -35,7 +35,7 @@ public class StaffDaoImpl implements StaffDao {
 			preparedStatement.setString(1, staff.getName());
 			preparedStatement.setString(2, staff.getPosition());
 			preparedStatement.setLong(3, staff.getTime());
-			preparedStatement.setLong(4, staff.getPhone());
+			preparedStatement.setString(4, staff.getPhone());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
@@ -62,7 +62,7 @@ public class StaffDaoImpl implements StaffDao {
 				String name = rs.getString("name");
 				String position = rs.getString("position");
 				Long time = rs.getLong("time");
-				Long phone = rs.getLong("phone");
+				String phone = rs.getString("phone");
 				staff = new Staff(id, name, position, time, phone);
 			}
 		} catch (SQLException exception) {
@@ -89,7 +89,7 @@ public class StaffDaoImpl implements StaffDao {
 				String name = rs.getString("name");
 				String position = rs.getString("position");
 				Long time = rs.getLong("time");
-				Long phone = rs.getLong("phone");
+				String phone = rs.getString("phone");
 				staff.add(new Staff(id, name, position, time, phone));
 			}
 		} catch (SQLException exception) {
@@ -117,7 +117,7 @@ public class StaffDaoImpl implements StaffDao {
 			statement.setString(1, staff.getName());
 			statement.setString(2, staff.getPosition());
 			statement.setLong(3, staff.getTime());
-			statement.setLong(4, staff.getPhone());
+			statement.setString(4, staff.getPhone());
 			statement.setLong(5, staff.getId());
 			rowUpdated = statement.executeUpdate() > 0;
 		}

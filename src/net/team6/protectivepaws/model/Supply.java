@@ -6,22 +6,24 @@ public class Supply {
 	private String type;
 	private String animal;
 	private Long amount;
-	
+	private String supply_name;
 	
 	protected Supply() {
 		
 	}
 	
-	public Supply (long id, String type, String animal, long amount) {
+	public Supply (long id, String supply_name, String type, String animal, long amount) {
 		super();
 		this.id = id;
+		this.supply_name = supply_name;
 		this.type = type;
 		this.animal = animal;
 		this.amount = amount;
 	}
 
-	public Supply (String type, String animal, long amount){
+	public Supply (String supply_name, String type, String animal, long amount){
 		super();
+		this.supply_name = supply_name;
 		this.type = type;
 		this.animal = animal;
 		this.amount = amount;
@@ -33,6 +35,14 @@ public class Supply {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getSupply_name() {
+		return supply_name;
+	}
+	
+	public void setSupply_name(String supply_name) {
+		this.supply_name = supply_name;
 	}
 
 	public String getType() {

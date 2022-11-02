@@ -1,3 +1,21 @@
+CREATE TABLE `animals` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `supplies_needed` int(3) NOT NULL,
+  `care` int(3) NOT NULL,
+  `species` varchar(10) NOT NULL,
+  `breed` varchar(50) DEFAULT NULL,
+  `age` varchar(30) DEFAULT NULL,
+  `gender` varchar(6) DEFAULT NULL,
+  `color` varchar(30) DEFAULT NULL,
+  `declawed` varchar(3) DEFAULT NULL,
+  `location` varchar(30) DEFAULT NULL,
+  `intake_date` date DEFAULT NULL,
+  `available` varchar(3) DEFAULT NULL,
+  `notes` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE `dogs` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,

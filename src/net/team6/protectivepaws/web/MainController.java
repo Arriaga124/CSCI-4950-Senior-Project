@@ -2,6 +2,8 @@ package net.team6.protectivepaws.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,9 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.team6.protectivepaws.dao.DogDao;
-import net.team6.protectivepaws.dao.DogDaoImpl;
-import net.team6.protectivepaws.model.Dog;
+import net.team6.protectivepaws.dao.AnimalDao;
+import net.team6.protectivepaws.dao.AnimalDaoImpl;
+import net.team6.protectivepaws.model.Animal;
 
 import net.team6.protectivepaws.dao.CatDao;
 import net.team6.protectivepaws.dao.CatDaoImpl;
@@ -47,22 +49,12 @@ import net.team6.protectivepaws.model.Supply;
 @WebServlet("/")
 public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private DogDao dogDAO;
-	private CatDao catDAO;
-	private BirdDao birdDAO;
-	private ReptileDao reptileDAO;
-	private HorseDao horseDAO;
-	private OtherDao otherDAO;
+	private AnimalDao animalDAO;
 	private StaffDao staffDAO;
 	private SupplyDao supplyDAO;
 
 	public void init() {
-		dogDAO = new DogDaoImpl();
-		catDAO = new CatDaoImpl();
-		birdDAO = new BirdDaoImpl();
-		reptileDAO = new ReptileDaoImpl();
-		horseDAO = new HorseDaoImpl();
-		otherDAO = new OtherDaoImpl();
+		animalDAO = new AnimalDaoImpl();
 		staffDAO = new StaffDaoImpl();
 		supplyDAO = new SupplyDaoImpl();
 	}
@@ -96,114 +88,24 @@ public class MainController extends HttpServlet {
 				showInvalid(request, response);
 				break;
 		
-			//Dog//
+			//Animal//
 			
-			case "/newDog":
-				showNewDogForm(request, response);
+			case "/newAnimal":
+				showNewAnimalForm(request, response);
 				break;
-			case "/insertDog":
-				insertDog(request, response);
+			case "/insertAnimal":
+				insertAnimal(request, response);
 				break;
-			case "/deleteDog":
-				deleteDog(request, response);
+			case "/deleteAnimal":
+				deleteAnimal(request, response);
 				break;
-			case "/editDog":
-				showDogEditForm(request, response);
+			case "/editAnimal":
+				showAnimalEditForm(request, response);
 				break;
-			case "/updateDog":
-				updateDog(request, response);
+			case "/updateAnimal":
+				updateAnimal(request, response);
 				break;
-				
-			//Cat//
-				
-			case "/newCat":
-				showNewCatForm(request, response);
-				break;
-			case "/insertCat":
-				insertCat(request, response);
-				break;
-			case "/deleteCat":
-				deleteCat(request, response);
-				break;
-			case "/editCat":
-				showCatEditForm(request, response);
-				break;
-			case "/updateCat":
-				updateCat(request, response);
-				break;
-				
-			//Bird//
-				
-			case "/newBird":
-				showNewBirdForm(request, response);
-				break;
-			case "/insertBird":
-				insertBird(request, response);
-				break;
-			case "/deleteBird":
-				deleteBird(request, response);
-				break;
-			case "/editBird":
-				showBirdEditForm(request, response);
-				break;
-			case "/updateBird":
-				updateBird(request, response);
-				break;
-				
-			//Reptile//
-				
-			case "/newReptile":
-				showNewReptileForm(request, response);
-				break;
-			case "/insertReptile":
-				insertReptile(request, response);
-				break;
-			case "/deleteReptile":
-				deleteReptile(request, response);
-				break;
-			case "/editReptile":
-				showReptileEditForm(request, response);
-				break;
-			case "/updateReptile":
-				updateReptile(request, response);
-				break;
-				
-			//Horse//
-				
-			case "/newHorse":
-				showNewHorseForm(request, response);
-				break;
-			case "/insertHorse":
-				insertHorse(request, response);
-				break;
-			case "/deleteHorse":
-				deleteHorse(request, response);
-				break;
-			case "/editHorse":
-				showHorseEditForm(request, response);
-				break;
-			case "/updateHorse":
-				updateHorse(request, response);
-				break;
-				
-			//Other//
-				
-			case "/newOther":
-				showNewOtherForm(request, response);
-				break;
-			case "/insertOther":
-				insertOther(request, response);
-				break;
-			case "/deleteOther":
-				deleteOther(request, response);
-				break;
-			case "/editOther":
-				showOtherEditForm(request, response);
-				break;
-			case "/updateOther":
-				updateOther(request, response);
-				break;
-				
+							
 			//Staff//
 				
 			case "/staff-list":
@@ -256,20 +158,21 @@ public class MainController extends HttpServlet {
 			throw new ServletException(ex);
 		}
 	}
+	
 
 	private void listAnimals(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<Dog> listDog = dogDAO.selectAllDogs();
+		List<Animal> listDog = animalDAO.selectAllBySpecies("Dog");
 		request.setAttribute("listDog", listDog);
-		List<Cat> listCat = catDAO.selectAllCats();
+		List<Animal> listCat = animalDAO.selectAllBySpecies("Cat");
 		request.setAttribute("listCat", listCat);
-		List<Bird> listBird = birdDAO.selectAllBirds();
+		List<Animal> listBird = animalDAO.selectAllBySpecies("Bird");
 		request.setAttribute("listBird", listBird);
-		List<Reptile> listReptile = reptileDAO.selectAllReptiles();
+		List<Animal> listReptile = animalDAO.selectAllBySpecies("Reptile");
 		request.setAttribute("listReptile", listReptile);
-		List<Horse> listHorse = horseDAO.selectAllHorses();
+		List<Animal> listHorse = animalDAO.selectAllBySpecies("Horse");
 		request.setAttribute("listHorse", listHorse);
-		List<Other> listOther = otherDAO.selectAllOthers();
+		List<Animal> listOther = animalDAO.selectAllBySpecies("Other");
 		request.setAttribute("listOther", listOther);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-list.jsp");
 		dispatcher.forward(request, response);
@@ -291,46 +194,46 @@ public class MainController extends HttpServlet {
 	private void doCheck(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		
-		int dogSupplyNeedTotal = dogDAO.selectAllDogsSupply();
+		int dogSupplyNeedTotal = animalDAO.selectAllSupplyBySpecies("Dog");
 		request.setAttribute("dogSupplyNeedTotal", dogSupplyNeedTotal);
-		int dogSupplyTotal = supplyDAO.selectAllDogSupply();
+		int dogSupplyTotal = supplyDAO.selectAllSuppliesBySpecies("Dog");
 		request.setAttribute("dogSupplyTotal", dogSupplyTotal);
-		int dogCareNeedTotal = dogDAO.selectAllDogsCare();
+		int dogCareNeedTotal = animalDAO.selectAllCareBySpecies("Dog");
 		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
 		
-		int catSupplyNeedTotal = catDAO.selectAllCatsSupply();
+		int catSupplyNeedTotal = animalDAO.selectAllSupplyBySpecies("Cat");
 		request.setAttribute("catSupplyNeedTotal", catSupplyNeedTotal);
-		int catSupplyTotal = supplyDAO.selectAllCatSupply();
+		int catSupplyTotal = supplyDAO.selectAllSuppliesBySpecies("Cat");
 		request.setAttribute("catSupplyTotal", catSupplyTotal);
-		int catCareNeedTotal = catDAO.selectAllCatsCare();
+		int catCareNeedTotal = animalDAO.selectAllCareBySpecies("Cat");
 		//request.setAttribute("catCareNeedTotal", catCareNeedTotal);
 		
-		int birdSupplyNeedTotal = birdDAO.selectAllBirdsSupply();
+		int birdSupplyNeedTotal = animalDAO.selectAllSupplyBySpecies("Bird");
 		request.setAttribute("birdSupplyNeedTotal", birdSupplyNeedTotal);
-		int birdSupplyTotal = supplyDAO.selectAllBirdSupply();
+		int birdSupplyTotal = supplyDAO.selectAllSuppliesBySpecies("Bird");
 		request.setAttribute("birdSupplyTotal", birdSupplyTotal);
-		int birdCareNeedTotal = birdDAO.selectAllBirdsCare();
+		int birdCareNeedTotal = animalDAO.selectAllCareBySpecies("Bird");
 		//request.setAttribute("birdCareNeedTotal", birdCareNeedTotal);
 		
-		int horseSupplyNeedTotal = horseDAO.selectAllHorsesSupply();
+		int horseSupplyNeedTotal = animalDAO.selectAllSupplyBySpecies("Horse");
 		request.setAttribute("horseSupplyNeedTotal", horseSupplyNeedTotal);
-		int horseSupplyTotal = supplyDAO.selectAllHorseSupply();
+		int horseSupplyTotal = supplyDAO.selectAllSuppliesBySpecies("Horse");
 		request.setAttribute("horseSupplyTotal", horseSupplyTotal);
-		int horseCareNeedTotal = horseDAO.selectAllHorsesCare();
+		int horseCareNeedTotal = animalDAO.selectAllCareBySpecies("Horse");
 		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
 		
-		int reptileSupplyNeedTotal = reptileDAO.selectAllReptilesSupply();
+		int reptileSupplyNeedTotal = animalDAO.selectAllSupplyBySpecies("Reptile");
 		request.setAttribute("reptileSupplyNeedTotal", reptileSupplyNeedTotal);
-		int reptileSupplyTotal = supplyDAO.selectAllReptileSupply();
+		int reptileSupplyTotal = supplyDAO.selectAllSuppliesBySpecies("Horse");
 		request.setAttribute("reptileSupplyTotal", reptileSupplyTotal);
-		int reptileCareNeedTotal = reptileDAO.selectAllReptilesCare();
+		int reptileCareNeedTotal = animalDAO.selectAllCareBySpecies("Horse");
 		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
 		
-		int otherSupplyNeedTotal = otherDAO.selectAllOthersSupply();
+		int otherSupplyNeedTotal = animalDAO.selectAllSupplyBySpecies("Other");
 		request.setAttribute("otherSupplyNeedTotal", otherSupplyNeedTotal);
-		int otherSupplyTotal = supplyDAO.selectAllOtherSupply();
+		int otherSupplyTotal = supplyDAO.selectAllSuppliesBySpecies("Other");
 		request.setAttribute("otherSupplyTotal", otherSupplyTotal);
-		int otherCareNeedTotal = otherDAO.selectAllOthersCare();
+		int otherCareNeedTotal = animalDAO.selectAllCareBySpecies("Other");
 		//request.setAttribute("dogCareNeedTotal", dogCareNeedTotal);
 		
 		int careTotal = staffDAO.selectAllCare();
@@ -416,293 +319,75 @@ public class MainController extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 	
-	//Dog/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Animal/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private void showNewDogForm(HttpServletRequest request, HttpServletResponse response)
+	private void showNewAnimalForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/dog-form.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-form.jsp");
 		dispatcher.forward(request, response);
 	}
 
-	private void showDogEditForm(HttpServletRequest request, HttpServletResponse response)
+	private void showAnimalEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		Dog existingDog = dogDAO.selectDog(id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/dog-form.jsp");
-		request.setAttribute("dog", existingDog);
+		Animal existingAnimal = animalDAO.selectAnimal(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-form.jsp");
+		request.setAttribute("animal", existingAnimal);
 		dispatcher.forward(request, response);
 
 	}
 
-	private void insertDog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void insertAnimal(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		
 		String name = request.getParameter("name");
-		int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-		int care = Integer.parseInt(request.getParameter("care"));
-		Dog newDog = new Dog(name, supplies_needed, care);
-		dogDAO.insertDog(newDog);
+		long supplies_needed = Long.parseLong(request.getParameter("supplies_needed"));
+		long care = Long.parseLong(request.getParameter("care"));
+		String species = request.getParameter("species");
+		String breed = request.getParameter("breed");
+		String age = request.getParameter("age");
+		String gender = request.getParameter("gender");
+		String color = request.getParameter("color");
+		String declawed = request.getParameter("declawed");
+		String location = request.getParameter("location");
+		LocalDate intake_date = LocalDate.parse(request.getParameter("intake_date"));
+		boolean available = Boolean.valueOf(request.getParameter("available"));
+		String notes = request.getParameter("notes");
+		
+		Animal newDog = new Animal(name, supplies_needed, care, species, breed, age, gender, color, declawed, location, intake_date, available, notes);
+		animalDAO.insertAnimal(newDog);
 		response.sendRedirect("list");
 	}
 
-	private void updateDog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void updateAnimal(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		
-		int id = Integer.parseInt(request.getParameter("id"));
+		Long id = Long.parseLong(request.getParameter("id"));
 		String name = request.getParameter("name");
-		int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-		int care = Integer.parseInt(request.getParameter("care"));
+		long supplies_needed = Long.parseLong(request.getParameter("supplies_needed"));
+		long care = Long.parseLong(request.getParameter("care"));
+		String species = request.getParameter("species");
+		String breed = request.getParameter("breed");
+		String age = request.getParameter("age");
+		String gender = request.getParameter("gender");
+		String color = request.getParameter("color");
+		String declawed = request.getParameter("declawed");
+		String location = request.getParameter("location");
+		LocalDate intake_date = LocalDate.parse(request.getParameter("intake_date"));
+		boolean available = Boolean.valueOf(request.getParameter("available"));
+		String notes = request.getParameter("notes");
 		
-		Dog updateDog = new Dog(id, name, supplies_needed, care);
-		dogDAO.updateDog(updateDog);
+		Animal updateAnimal = new Animal(id, name, supplies_needed, care, species, breed, age, gender, color, declawed, location, intake_date, available, notes);
+		animalDAO.updateAnimal(updateAnimal);
 		
 		response.sendRedirect("list");
 	}
 
-	private void deleteDog(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+	private void deleteAnimal(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		dogDAO.deleteDog(id);
+		animalDAO.deleteAnimal(id);
 		response.sendRedirect("list");
 	}
 	
 	
-	//Cat/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	private void showNewCatForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/cat-form.jsp");
-		dispatcher.forward(request, response);
-	}
-	
-
-	private void showCatEditForm(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		Cat existingCat = catDAO.selectCat(id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/cat-form.jsp");
-		request.setAttribute("cat", existingCat);
-		dispatcher.forward(request, response);
-
-	}
-
-	private void insertCat(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		
-		String name = request.getParameter("name");
-		int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-		int care = Integer.parseInt(request.getParameter("care"));
-		Cat newCat = new Cat(name, supplies_needed, care);
-		catDAO.insertCat(newCat);
-		response.sendRedirect("list");
-	}
-
-	private void updateCat(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		
-		int id = Integer.parseInt(request.getParameter("id"));
-		String name = request.getParameter("name");
-		int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-		int care = Integer.parseInt(request.getParameter("care"));
-		
-		Cat updateCat = new Cat(id, name, supplies_needed, care);
-		catDAO.updateCat(updateCat);
-		
-		response.sendRedirect("list");
-	}
-
-	private void deleteCat(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		catDAO.deleteCat(id);
-		response.sendRedirect("list");
-	}
-	
-	//Bird/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-		private void showNewBirdForm(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/bird-form.jsp");
-			dispatcher.forward(request, response);
-		}
-		
-
-		private void showBirdEditForm(HttpServletRequest request, HttpServletResponse response)
-				throws SQLException, ServletException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			Bird existingBird = birdDAO.selectBird(id);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/bird-form.jsp");
-			request.setAttribute("bird", existingBird);
-			dispatcher.forward(request, response);
-
-		}
-
-		private void insertBird(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			Bird newBird = new Bird(name, supplies_needed, care);
-			birdDAO.insertBird(newBird);
-			response.sendRedirect("list");
-		}
-
-		private void updateBird(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			
-			Bird updateBird = new Bird(id, name, supplies_needed, care);
-			birdDAO.updateBird(updateBird);
-			
-			response.sendRedirect("list");
-		}
-
-		private void deleteBird(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			birdDAO.deleteBird(id);
-			response.sendRedirect("list");
-		}
-		
-		//Reptile/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		private void showNewReptileForm(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/reptile-form.jsp");
-			dispatcher.forward(request, response);
-		}
-		
-
-		private void showReptileEditForm(HttpServletRequest request, HttpServletResponse response)
-				throws SQLException, ServletException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			Reptile existingReptile = reptileDAO.selectReptile(id);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/reptile-form.jsp");
-			request.setAttribute("reptile", existingReptile);
-			dispatcher.forward(request, response);
-
-		}
-
-		private void insertReptile(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			Reptile newReptile = new Reptile(name, supplies_needed, care);
-			reptileDAO.insertReptile(newReptile);
-			response.sendRedirect("list");
-		}
-
-		private void updateReptile(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			
-			Reptile updateReptile = new Reptile(id, name, supplies_needed, care);
-			reptileDAO.updateReptile(updateReptile);
-			
-			response.sendRedirect("list");
-		}
-
-		private void deleteReptile(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			reptileDAO.deleteReptile(id);
-			response.sendRedirect("list");
-		}
-		
-		//Horse/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		private void showNewHorseForm(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/horse-form.jsp");
-			dispatcher.forward(request, response);
-		}
-		
-
-		private void showHorseEditForm(HttpServletRequest request, HttpServletResponse response)
-				throws SQLException, ServletException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			Horse existingHorse = horseDAO.selectHorse(id);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/horse-form.jsp");
-			request.setAttribute("horse", existingHorse);
-			dispatcher.forward(request, response);
-
-		}
-
-		private void insertHorse(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			Horse newHorse = new Horse(name, supplies_needed, care);
-			horseDAO.insertHorse(newHorse);
-			response.sendRedirect("list");
-		}
-
-		private void updateHorse(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			
-			Horse updateHorse = new Horse(id, name, supplies_needed, care);
-			horseDAO.updateHorse(updateHorse);
-			
-			response.sendRedirect("list");
-		}
-
-		private void deleteHorse(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			horseDAO.deleteHorse(id);
-			response.sendRedirect("list");
-		}
-		
-		//Other/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		private void showNewOtherForm(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/other-form.jsp");
-			dispatcher.forward(request, response);
-		}
-		
-
-		private void showOtherEditForm(HttpServletRequest request, HttpServletResponse response)
-				throws SQLException, ServletException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			Other existingOther = otherDAO.selectOther(id);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("animal/other-form.jsp");
-			request.setAttribute("other", existingOther);
-			dispatcher.forward(request, response);
-
-		}
-
-		private void insertOther(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			Other newOther = new Other(name, supplies_needed, care);
-			otherDAO.insertOther(newOther);
-			response.sendRedirect("list");
-		}
-
-		private void updateOther(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			String name = request.getParameter("name");
-			int supplies_needed = Integer.parseInt(request.getParameter("supplies_needed"));
-			int care = Integer.parseInt(request.getParameter("care"));
-			
-			Other updateOther = new Other(id, name, supplies_needed, care);
-			otherDAO.updateOther(updateOther);
-			
-			response.sendRedirect("list");
-		}
-
-		private void deleteOther(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-			int id = Integer.parseInt(request.getParameter("id"));
-			otherDAO.deleteOther(id);
-			response.sendRedirect("list");
-		}
 	//Staff/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	private void listStaff(HttpServletRequest request, HttpServletResponse response)
@@ -735,7 +420,7 @@ public class MainController extends HttpServlet {
 		String name = request.getParameter("name");
 		String position = request.getParameter("position");
 		int time = Integer.parseInt(request.getParameter("time"));
-		int phone = Integer.parseInt(request.getParameter("phone"));
+		String phone = request.getParameter("phone");
 		Staff newStaff = new Staff(name, position, time, phone);
 		staffDAO.insertStaff(newStaff);
 		response.sendRedirect("staff-list");
@@ -747,7 +432,7 @@ public class MainController extends HttpServlet {
 		String name = request.getParameter("name");
 		String position = request.getParameter("position");
 		int time = Integer.parseInt(request.getParameter("time"));
-		int phone = Integer.parseInt(request.getParameter("phone"));
+		String phone = request.getParameter("phone");
 		
 		Staff updateStaff = new Staff(id, name, position, time, phone);
 		staffDAO.updateStaff(updateStaff);
@@ -787,10 +472,11 @@ public class MainController extends HttpServlet {
 
 	private void insertSupply(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		
+		String supply_name = request.getParameter("supply_name");
 		String type = request.getParameter("type");
 		String animal = request.getParameter("animal");
 		int amount = Integer.parseInt(request.getParameter("amount"));
-		Supply newSupply = new Supply(type, animal, amount);
+		Supply newSupply = new Supply(supply_name, type, animal, amount);
 		supplyDAO.insertSupply(newSupply);
 		response.sendRedirect("supply-list");
 	}
@@ -798,10 +484,11 @@ public class MainController extends HttpServlet {
 	private void updateSupply(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		
 		int id = Integer.parseInt(request.getParameter("id"));
+		String supply_name = request.getParameter("supply_name");
 		String type = request.getParameter("type");
 		String animal = request.getParameter("animal");
 		int amount = Integer.parseInt(request.getParameter("amount"));
-		Supply updateSupply = new Supply(id, type, animal, amount);
+		Supply updateSupply = new Supply(id, supply_name, type, animal, amount);
 		supplyDAO.updateSupply(updateSupply);
 		response.sendRedirect("supply-list");
 		

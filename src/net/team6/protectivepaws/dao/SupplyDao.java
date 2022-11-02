@@ -11,17 +11,12 @@ public interface SupplyDao {
 
 	Supply selectSupply(long SupplyId);
 
-	List<Supply> selectAllSupplys();
-
-	int selectAllDogSupply();
-	int selectAllCatSupply();
-	int selectAllBirdSupply();
-	int selectAllHorseSupply();
-	int selectAllReptileSupply();
-	int selectAllOtherSupply();
+	int selectAllSuppliesBySpecies(String type);
 	
 	boolean deleteSupply(int id) throws SQLException;
 
 	boolean updateSupply(Supply supply) throws SQLException;
+	
+	List<Supply> selectAllSupplys();
 
 }
