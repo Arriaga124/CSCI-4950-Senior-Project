@@ -33,6 +33,7 @@ public class LoginController extends HttpServlet {
 	}
 
 	private void authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		HttpSession session = request.getSession();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		LoginBean loginBean = new LoginBean();
@@ -40,11 +41,10 @@ public class LoginController extends HttpServlet {
 		loginBean.setPassword(password);
 
 		try {
-			if (loginDao.validate(loginBean)) {
+			if (loginDao.validate(loginBean, session)) {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
 				dispatcher.forward(request, response);
 			} else {
-				HttpSession session = request.getSession();
                 response.sendRedirect("login/login.jsp");
 			}
 		} catch (ClassNotFoundException e) {

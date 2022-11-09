@@ -1,3 +1,10 @@
+<%
+	if (session.getAttribute("name")==null){
+		response.sendRedirect("login/login.jsp");
+	}
+%>
+
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -23,7 +30,7 @@
 		<br>
 			<h3>Supplies Results</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>Animal Type</th>
 						<th>Total Meals Needed</th>
@@ -79,7 +86,7 @@
 			<br>
 			<h3>Staffing Results</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>Total Care Needed</th>
 						<th>Total Care Available</th>

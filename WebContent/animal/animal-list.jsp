@@ -1,3 +1,10 @@
+<%
+	if (session.getAttribute("name")==null){
+		response.sendRedirect("login/login.jsp");
+	}
+%>
+
+
 <%@ page language = "java" contentType = "text/html; charset = UTF-8"
 	pageEncoding = "UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
@@ -20,10 +27,7 @@
 <!-- Includes navbar from navbar.jsp  -->
 	<jsp:include page="../common/navbar.jsp"></jsp:include>
 	
-	
-		
 <!--//Dog/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->	
-		
 		<div class = "row">
 			
 		<div class = "container">
@@ -38,7 +42,7 @@
 			<br>
 			<h3>Dogs</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
@@ -73,7 +77,7 @@
 			<br>
 			<h3>Cats</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
@@ -108,7 +112,7 @@
 			<br>
 			<h3>Birds</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
@@ -143,7 +147,7 @@
 			<br>
 			<h3>Reptiles</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light"> 
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
@@ -178,7 +182,7 @@
 			<br>
 			<h3>Horses</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
@@ -213,7 +217,7 @@
 			<br>
 			<h3>Other</h3>
 			<table class = "table table-bordered">
-				<thead>
+				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
 						<th>Name</th>

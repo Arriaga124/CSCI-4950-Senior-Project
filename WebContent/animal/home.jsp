@@ -1,3 +1,10 @@
+<%
+	if (session.getAttribute("name")==null){
+		response.sendRedirect("login/login.jsp");
+	}
+%>
+
+
 <%@ page language = "java" contentType = "text/html; charset = UTF-8"
 	pageEncoding = "UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c"%>
@@ -12,6 +19,7 @@
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <style><%@include file="/css/styles.css"%></style>	
 </head>
 <body>
@@ -64,8 +72,16 @@
 	<c:forEach var = "task" items = "${listTasks}">
 		<tr>
 			<td><c:out value="${task.task}" /></td>
-			<td><span class="badge badge-warning"><c:out value="${task.priority}" /></span></td>
-						
+				
+				<c:if test = "${task.priority == 'Low'}" >
+				<td><span class="badge badge-success"><c:out value="${task.priority}" /></span></td>
+				</c:if>
+				<c:if test = "${task.priority == 'Medium'}" >
+				<td><span class="badge badge-warning"><c:out value="${task.priority}" /></span></td>
+				</c:if>
+				<c:if test = "${task.priority == 'High'}" >
+				<td><span class="badge badge-danger"><c:out value="${task.priority}" /></span></td>
+				</c:if>				
 			<td><a	href="deleteTask?id=<c:out value='${task.id}' />"><i class="material-icons" style="font-size:23px;">cancel</i></a></td>
 		</tr>
 	</c:forEach>

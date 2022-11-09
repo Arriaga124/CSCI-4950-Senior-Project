@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import net.team6.protectivepaws.model.LoginBean;
 import net.team6.protectivepaws.utils.JDBCUtils;
 
 public class LoginDao {
 
-	public boolean validate(LoginBean loginBean) throws ClassNotFoundException {
+	public boolean validate(LoginBean loginBean, HttpSession session) throws ClassNotFoundException {
 		boolean status = false;
 
 		Class.forName("com.mysql.jdbc.Driver");
@@ -24,6 +26,9 @@ public class LoginDao {
 			System.out.println(preparedStatement);
 			ResultSet rs = preparedStatement.executeQuery();
 			status = rs.next();
+			
+			if(status)
+				session.setAttribute("name", rs.getString("first_name"));
 
 		} catch (SQLException e) {
 			JDBCUtils.printSQLException(e);

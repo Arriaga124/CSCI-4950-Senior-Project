@@ -25,7 +25,7 @@
 							<h4 class="card-title">Shelter Sign In</h4>
 							<form action="<%=request.getContextPath()%>/login" method="post" class="my-login-validation">
 								<div class="form-group">
-									<label for="email">Username:</label>
+									<label for="username">Username:</label>
 									<input id="username" type="text" class="form-control" name="username" placeholder="username" required
 										autofocus>
 								</div>

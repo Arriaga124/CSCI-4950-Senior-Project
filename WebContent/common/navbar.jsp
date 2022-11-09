@@ -1,12 +1,8 @@
 <header>
 	<nav class = "navbar navbar-expand-md navbar-dark" style = "background-color: rgb(34,93,196) ">
 			<div>
-				<a class = "navbar-brand"> Protective Paws</a>
+				<a href = "<%=request.getContextPath()%>/home" class = "navbar-brand"> Protective Paws</a>
 			</div>
-			<ul class = "navbar-nav">
-				<li><a href = "<%=request.getContextPath()%>/home"
-					class="nav-link">Home</a></li>
-			</ul>
 			<ul class = "navbar-nav">
 				<li><a href = "<%=request.getContextPath()%>/list"
 					class = "nav-link">Animals</a></li>
