@@ -4,6 +4,10 @@
 				<a class = "navbar-brand"> Protective Paws</a>
 			</div>
 			<ul class = "navbar-nav">
+				<li><a href = "<%=request.getContextPath()%>/home"
+					class="nav-link">Home</a></li>
+			</ul>
+			<ul class = "navbar-nav">
 				<li><a href = "<%=request.getContextPath()%>/list"
 					class = "nav-link">Animals</a></li>
 			</ul>

@@ -27,7 +27,7 @@ CREATE TABLE `staff` (
 
 CREATE TABLE `supply` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
-  `supply_name` varchar(45) DEFAULT NULL,
+  `supply_name` varchar(20) DEFAULT NULL,
   `type` varchar(20) DEFAULT NULL,
   `animal` varchar(20) DEFAULT NULL,
   `amount` int(3) NOT NULL,
@@ -42,3 +42,10 @@ CREATE TABLE `users` (
   `password` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `tasks` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `task` varchar(100) DEFAULT NULL,
+  `priority` varchar(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

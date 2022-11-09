@@ -1,0 +1,101 @@
+
+/*css for the login and register forms*/
+@charset "ISO-8859-1";
+html,body {
+	height: 100%;
+}
+
+body.my-login-page {
+	background-color: #f7f9fb;
+	font-size: 14px;
+}
+
+.my-login-page .card-wrapper {
+	width: 400px;
+}
+
+.my-login-page .card {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.my-login-page .card.fat {
+	padding: 10px;
+}
+
+.my-login-page .card .card-title {
+	margin-bottom: 30px;
+}
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+	padding: 10px 10px;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card.fat .card-body {
+		padding: 15px;
+	}
+	
+}	
+	
+/*css for the task table in home page*/		
+.fixed_header{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: 280px;
+}
+
+.fixed_header thead tr {
+   display: block;
+}
+
+.fixed_header thead {
+  background: white;
+  color:black;
+}
+
+.fixed_header th {
+  padding: 5px;
+  text-align: left;
+  width: 100%;
+  border-bottom-style: solid;
+}
+
+.fixed_header td{
+  padding: 10px;
+  text-align: left;
+  width: 100%; 
+  border-bottom-style: solid;
+}

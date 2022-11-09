@@ -20,5 +20,7 @@ public interface AnimalDao {
 	boolean deleteAnimal(int id) throws SQLException;
 
 	boolean updateAnimal(Animal animal) throws SQLException;
+	
+	int countAnimals (String type);
 
 }

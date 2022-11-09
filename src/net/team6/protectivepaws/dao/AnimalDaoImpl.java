@@ -197,4 +197,20 @@ public class AnimalDaoImpl implements AnimalDao {
 		}
 		return rowUpdated;
 	}
+	
+	@Override
+	public int countAnimals(String type){
+		int count = 0;
+		List<Animal> list = selectAllBySpecies(type);
+		
+		for (int i = 0; i < list.size(); i++) 
+		{
+		  count++;
+		}
+
+		return count;
+		 
+	}
 }
+
+

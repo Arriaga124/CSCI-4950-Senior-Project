@@ -3,8 +3,9 @@ package net.team6.protectivepaws.web;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,26 +18,6 @@ import net.team6.protectivepaws.dao.AnimalDao;
 import net.team6.protectivepaws.dao.AnimalDaoImpl;
 import net.team6.protectivepaws.model.Animal;
 
-import net.team6.protectivepaws.dao.CatDao;
-import net.team6.protectivepaws.dao.CatDaoImpl;
-import net.team6.protectivepaws.model.Cat;
-
-import net.team6.protectivepaws.dao.BirdDao;
-import net.team6.protectivepaws.dao.BirdDaoImpl;
-import net.team6.protectivepaws.model.Bird;
-
-import net.team6.protectivepaws.dao.HorseDao;
-import net.team6.protectivepaws.dao.HorseDaoImpl;
-import net.team6.protectivepaws.model.Horse;
-
-import net.team6.protectivepaws.dao.ReptileDao;
-import net.team6.protectivepaws.dao.ReptileDaoImpl;
-import net.team6.protectivepaws.model.Reptile;
-
-import net.team6.protectivepaws.dao.OtherDao;
-import net.team6.protectivepaws.dao.OtherDaoImpl;
-import net.team6.protectivepaws.model.Other;
-
 import net.team6.protectivepaws.dao.StaffDao;
 import net.team6.protectivepaws.dao.StaffDaoImpl;
 import net.team6.protectivepaws.model.Staff;
@@ -45,6 +26,10 @@ import net.team6.protectivepaws.dao.SupplyDao;
 import net.team6.protectivepaws.dao.SupplyDaoImpl;
 import net.team6.protectivepaws.model.Supply;
 
+import net.team6.protectivepaws.dao.TaskDao;
+import net.team6.protectivepaws.dao.TaskDaoImpl;
+import net.team6.protectivepaws.model.Task;
+
 
 @WebServlet("/")
 public class MainController extends HttpServlet {
@@ -52,11 +37,14 @@ public class MainController extends HttpServlet {
 	private AnimalDao animalDAO;
 	private StaffDao staffDAO;
 	private SupplyDao supplyDAO;
+	private TaskDao taskDAO;
+
 
 	public void init() {
 		animalDAO = new AnimalDaoImpl();
 		staffDAO = new StaffDaoImpl();
 		supplyDAO = new SupplyDaoImpl();
+		taskDAO = new TaskDaoImpl();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -72,6 +60,9 @@ public class MainController extends HttpServlet {
 			switch (action) {
 			//All//
 			
+			case "/home":
+				showHome(request, response);
+				break;
 			case "/list":
 				listAnimals(request, response);
 				break;
@@ -86,6 +77,15 @@ public class MainController extends HttpServlet {
 				
 			case "/notvalid":
 				showInvalid(request, response);
+				break;
+				
+			//Task//
+				
+			case "/insertTask":
+				insertTask(request, response);
+				break;
+			case "/deleteTask":
+				deleteTask(request, response);
 				break;
 		
 			//Animal//
@@ -159,7 +159,41 @@ public class MainController extends HttpServlet {
 		}
 	}
 	
+/////////Home & Task///////////////////////////////////////////////////////////////////////////////////
+	private void deleteTask(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		taskDAO.deleteTask(id);
+		response.sendRedirect("home");	
+	}
 
+	private void insertTask(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		String task = request.getParameter("task");
+		String priority = request.getParameter("priority");
+		Task newTask = new Task(task, priority);
+		taskDAO.insertTask(newTask);
+		response.sendRedirect("home");	
+	}
+
+	private void showHome(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException{	
+		String[] species = {"Dog", "Cat", "Bird", "Reptile", "Horse", "Other"};
+		Map<String, Integer> speciesCount = new HashMap<String, Integer>();
+		
+		for (String str : species) 
+		{ speciesCount.put(str, animalDAO.countAnimals(str)); }			
+		System.out.println(speciesCount);
+		request.setAttribute("speciesCount",speciesCount);
+		listTasks(request,response);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/home.jsp");
+		dispatcher.forward(request,response);	
+	}
+	
+	private void listTasks(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException{		
+		List<Task> listTasks = taskDAO.selectAllTasks();
+		request.setAttribute("listTasks", listTasks);
+	}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void listAnimals(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		List<Animal> listDog = animalDAO.selectAllBySpecies("Dog");
