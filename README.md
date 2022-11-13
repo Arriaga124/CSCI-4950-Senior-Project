@@ -9,4 +9,4 @@ Protective Paws is an inventory management system that can aid the management te
 - Java Servlets
 - JSP
 - MySQL 
-- Corel Draw
+
