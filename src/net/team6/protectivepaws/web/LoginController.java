@@ -39,6 +39,7 @@ public class LoginController extends HttpServlet {
 		LoginBean loginBean = new LoginBean();
 		loginBean.setUsername(username);
 		loginBean.setPassword(password);
+		session.setAttribute("currentUser", username);
 
 		try {
 			if (loginDao.validate(loginBean, session)) {

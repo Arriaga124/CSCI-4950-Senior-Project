@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.team6.protectivepaws.dao.AnimalDao;
 import net.team6.protectivepaws.dao.AnimalDaoImpl;
@@ -30,6 +31,9 @@ import net.team6.protectivepaws.dao.TaskDao;
 import net.team6.protectivepaws.dao.TaskDaoImpl;
 import net.team6.protectivepaws.model.Task;
 
+import net.team6.protectivepaws.dao.UserDao;
+import net.team6.protectivepaws.model.User;
+
 
 @WebServlet("/")
 public class MainController extends HttpServlet {
@@ -38,6 +42,7 @@ public class MainController extends HttpServlet {
 	private StaffDao staffDAO;
 	private SupplyDao supplyDAO;
 	private TaskDao taskDAO;
+	private UserDao userDAO;
 
 
 	public void init() {
@@ -348,9 +353,15 @@ public class MainController extends HttpServlet {
 			careValidity= false;
 			request.setAttribute("careValidity", careValidity);
 		}
+		HttpSession session = request.getSession();
+		String temp = ""+java.time.LocalDate.now();
+		session.setAttribute("checkedDate", temp);
+		
+		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/valid.jsp");
 		dispatcher.forward(request, response);
+		
 	}
 	
 	//Animal/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

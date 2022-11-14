@@ -175,6 +175,7 @@ public class AnimalDaoImpl implements AnimalDao {
 	}
 
 	@Override
+	
 	public boolean updateAnimal(Animal animal) throws SQLException {
 		boolean rowUpdated;
 		try (Connection connection = JDBCUtils.getConnection();

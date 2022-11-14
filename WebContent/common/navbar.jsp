@@ -15,6 +15,9 @@
 				<li><a href = "<%=request.getContextPath()%>/staff-list"
 					class="nav-link">Staff</a></li>
 			</ul>
+			<ul class = "navbar-nav " style="color:white;">
+				<li>Last Checked: <%=session.getAttribute("checkedDate")%></li>
+			</ul>
 			<ul class = "navbar-nav navbar-collapse justify-content-end">
 				<li><a href = "<%=request.getContextPath()%>/logout"
 					class = "nav-link">Logout</a></li>
