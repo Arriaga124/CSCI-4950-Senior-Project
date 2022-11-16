@@ -20,22 +20,31 @@ Download [here](https://www.eclipse.org/downloads/download.php?file=/technology/
 3. MySQLWorkbench 8.0 Download [here](https://dev.mysql.com/downloads/windows/installer/8.0.html)
 4. The source code. Either clone the repository into an appropriate folder using the CLI of your choice or unzip the ZIP folder you downloaded from the site.
 
-### Before the project will work you must create a database schema for it on MySQL
-In our project we have a file called "our_script" which contains the SQL code necessary to create the database. In MySQL create a new schema called "protectivepaws" and simply copy and paste our SQL to create the necessary tables.
+### Installing Eclipse
+1. Once download from above extract the zip file.
+2. Navigate "eclipse-jee-2022-09-R-win32-x86_64\eclipse\eclipse.exe", and run the "eclipse.exe"
+3. For the select a directory popup simply press the launch button at the bottom, as the default workplace will be correct.
+4. The Eclipse will open to the main paige, and the installation for it is complete!
 
 ### Configuring Eclipse
 In order to run the project on eclipse you will need to do the following things
-1. From the tabs at the top right go to File -> New -> Dynamic Web Project
+1. From the tabs at the top left go to File -> New -> Dynamic Web Project
 2. Configure the Dynamic Web Project window as such
 ![image](https://user-images.githubusercontent.com/92412809/202046658-a2d3226f-1725-45cd-ad48-a09779cecf11.png)
 3. Click Next
 4. Click Next again
 5. On the Web Module window check the Generate web.xml deployment descriptor checkbox
 6. Click Finish
-7. Find the folder containing our project 
-8. Select all files except build and copy and paste onto your newly created Eclipse project
+7. Find the folder containing our projects source code. 
+8. Select all files except "build" folder, and copy and then paste the selection within your newly created Eclipse project
 ![image](https://user-images.githubusercontent.com/92412809/202046868-64be643b-0250-40b6-811e-948002ddad08.png)
-9. When prompted click Overwrite All
+9. if inable to directly copy and paste, right click on the ProtectivePaws project and select "show in" -> "system explorer"
+10. From there open up the ProtectivePaws project and paste it within that folder.
+11. When prompted click Overwrite All
+12. once all files are finished being added, please right click the ProtectivePaws project within eclipse and select "refresh".
+
+### Before the project will work you must create a database schema for it on MySQL
+In our project we have a file called "our_script" which contains the SQL code necessary to create the database. In MySQL create a new schema called "protectivepaws" and simply copy and paste our SQL to create the necessary tables.
 
 ### Next comes setting up the project to connect to MySQL
 1. In the project folder go to Java Resources -> src -> net.team6.protectivepaws.utils -> JDBCUtils.java
