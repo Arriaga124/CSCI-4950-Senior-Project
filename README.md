@@ -30,22 +30,9 @@ Download [here](https://www.eclipse.org/downloads/download.php?file=/technology/
 1. Run the installer
 2. select Custom on the choose setup type window
 3. On the select products page select MySQL server 8.0.31, Workbench 8.0.31, Connector/j 8.0.31
-4. Click Next
-5. Click Execute
-6. Click Next
-7. Click Execute
-8. Click Next
-9. Click Execute
-10. Click Next
-11. In the Accounts and Roles window type in root for password
-12. Click Next
-13. Click Next
-14. Click Next
-15. Click Execute
-16. Click Finish
-17. Click Next
-18. Click Finsih and mysql should launch automatically
-
+4. Click Next, Click Execute, Click Next, Click Execute, Click Next, Click Execute, Click Next
+5. In the Accounts and Roles window type in root for password
+6. Click Next, Click Next, Click Next, Click Execute, Click Finish, Click Next, Click Finish and mysql should launch automatically
 
 ### Configuring Eclipse
 In order to run the project on eclipse you will need to do the following things
