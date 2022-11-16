@@ -17,7 +17,7 @@ Protective Paws is an inventory management system that can aid the management te
 1. Eclipse IDE for Enterprise Java and Web Developers.
 Download [here](https://www.eclipse.org/downloads/packages/release/2022-09/r/eclipse-ide-enterprise-java-and-web-developers)
 2. Apache Tomcat Server 8. Download [here](https://tomcat.apache.org/download-80.cgi ), once downloaded extract it and make note of where you save it
-3. MySQL
+3. MySQLWorkbench 8.0 Download [here](https://dev.mysql.com/downloads/windows/installer/8.0.html)
 4. The source code. Either clone the repository into an appropriate folder using the CLI of your choice or unzip the ZIP folder you downloaded from the site.
 
 ### Before the project will work you must create a database schema for it on MySQL
