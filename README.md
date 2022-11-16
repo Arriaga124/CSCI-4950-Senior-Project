@@ -53,16 +53,27 @@ In order to run the project on eclipse you will need to do the following things
 
 ### Before the project will work you must create a database schema for it on MySQL
 In our project we have a file called "our_script" which contains the SQL code necessary to create the database. In MySQL create a new schema called "protectivepaws" and simply copy and paste our SQL to create the necessary tables.
+1. Click the plus button next to MySQL Connections
+2. Name the connection "protective_paws", then select ok
+3. Click on the new "protective_paws" connection and type in the password "root" from installing earlier.
+4. Click the new schema button at the top and then name it "protectivepaws", and click apply -> apply -> finish. 
+5. In our project we have a file called "our_script" which contains the SQL code necessary to create the database, navigate to it via eclipse and open it up.
+6. Copy that entire files contents and place it in the open Query 1 window of mySQL.
+7. click the lightning bolt button at the top of the query tab to execute the query.
+8. then all the tables will be build automatically for you!
 
 ### Next comes setting up the project to connect to MySQL
 1. In the project folder go to Java Resources -> src -> net.team6.protectivepaws.utils -> JDBCUtils.java
-2. On this file find the following code and change it with your MySQL username and password
+2. On this file find the following code and change it with your MySQL username and password (Will be "root" from earlier)
 ![image](https://user-images.githubusercontent.com/92412809/202047126-44516a4d-f52d-49b8-84b1-9c08462f92d9.png)
+3. Save the file.
 
 ### Next comes setting up Tomcat Server on eclipse
 1. On Eclipse Project Explorer Right click the project’s folder and select Run As -> Run on Server
 2. On the popup window, double click the Apache folder and select Tomcat v8.5 Server
 ![image](https://user-images.githubusercontent.com/92412809/202047243-1f3f405d-6595-4a39-8f89-e7653667a5ed.png)
 3. Click Next 
-4. On the Available section, select the project and click Add > to move it to the Configured section
-5. Click Finish and the project should launch on the web browser
+4. create a folder to host the tomcat server on your computer, and then click the browse button and set it as the installation path for the tomcat server.
+5. Then install the Tomcat server.
+6. On the Available section, select the project and click Add > to move it to the Configured section
+7. Click Finish and the project should launch on the web browser
