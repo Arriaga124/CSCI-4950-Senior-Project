@@ -90,7 +90,8 @@ public class StaffDaoImpl implements StaffDao {
 				String position = rs.getString("position");
 				Long time = rs.getLong("time");
 				String phone = rs.getString("phone");
-				staff.add(new Staff(id, name, position, time, phone));
+				String number = phone.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+				staff.add(new Staff(id, name, position, time, number));
 			}
 		} catch (SQLException exception) {
 			JDBCUtils.printSQLException(exception);

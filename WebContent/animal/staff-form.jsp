@@ -10,29 +10,27 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Protective Paws</title>
-
+<title>Staff Form</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-
+<style><%@include file="/css/styles.css"%></style>
 </head>
 
-</head>
 <body>
 	
 	<!-- Includes navbar from navbar.jsp  -->
 	<jsp:include page="../common/navbar.jsp"></jsp:include>
 	
-		<div class="container col-md-5">
+		<div class="container col-md-5 mt-4">
 		<div class="card">
 			<div class="card-body">
 				<c:if test="${staff != null}">
-					<form action="updateStaff" method="post">
+					<form action="updateStaff" method="post" autocomplete="off">
 				</c:if>
 				<c:if test="${staff == null}">
-					<form action="insertStaff" method="post">
+					<form action="insertStaff" method="post" autocomplete="off">
 				</c:if>
 
 				<caption>
@@ -70,12 +68,12 @@
 				</fieldset>
 				
 				<fieldset class="form-group">
-					<label>Phone</label> <input type="number"
+					<label>Phone</label> <input type="text"
 						value="<c:out value='${staff.phone}' />" class="form-control"
-						name="phone" required="required">
+						name="phone" placeholder="No dashes" required="required">
 				</fieldset>
 
-				<button type="submit" class="btn btn-success">Save</button>
+				<button type="submit" class="btn btn-success w-100">Save</button>
 				</form>
 			</div>
 		</div>

@@ -24,7 +24,7 @@
 					<div class="card fat">
 						<div class="card-body">
 							<h4 class="card-title">User Register Form</h4>
-							<form action="<%=request.getContextPath()%>/register" method="post">
+							<form action="<%=request.getContextPath()%>/register" method="post" autocomplete="off">
 								
 								<div class="form-group">
 									<label for="uname">First Name:</label>

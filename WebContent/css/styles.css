@@ -3,6 +3,8 @@
 @charset "ISO-8859-1";
 html,body {
 	height: 100%;
+	background-color: #f7f9fb;
+	font-family: 'Kanit', sans-serif;
 }
 
 body.my-login-page {

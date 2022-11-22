@@ -43,7 +43,7 @@ public class MainController extends HttpServlet {
 	private SupplyDao supplyDAO;
 	private TaskDao taskDAO;
 	private UserDao userDAO;
-
+	String[] species = {"Dog", "Cat", "Bird", "Reptile", "Horse", "Other"};
 
 	public void init() {
 		animalDAO = new AnimalDaoImpl();
@@ -109,6 +109,9 @@ public class MainController extends HttpServlet {
 				break;
 			case "/updateAnimal":
 				updateAnimal(request, response);
+				break;
+			case "/showProfile":
+				showProfile(request, response);
 				break;
 							
 			//Staff//
@@ -181,14 +184,15 @@ public class MainController extends HttpServlet {
 
 	private void showHome(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException{	
-		String[] species = {"Dog", "Cat", "Bird", "Reptile", "Horse", "Other"};
 		Map<String, Integer> speciesCount = new HashMap<String, Integer>();
 		
 		for (String str : species) 
 		{ speciesCount.put(str, animalDAO.countAnimals(str)); }			
 		System.out.println(speciesCount);
 		request.setAttribute("speciesCount",speciesCount);
+		
 		listTasks(request,response);
+		totalAnimals(request,response);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/home.jsp");
 		dispatcher.forward(request,response);	
 	}
@@ -198,24 +202,16 @@ public class MainController extends HttpServlet {
 		List<Task> listTasks = taskDAO.selectAllTasks();
 		request.setAttribute("listTasks", listTasks);
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-	private void listAnimals(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
-		List<Animal> listDog = animalDAO.selectAllBySpecies("Dog");
-		request.setAttribute("listDog", listDog);
-		List<Animal> listCat = animalDAO.selectAllBySpecies("Cat");
-		request.setAttribute("listCat", listCat);
-		List<Animal> listBird = animalDAO.selectAllBySpecies("Bird");
-		request.setAttribute("listBird", listBird);
-		List<Animal> listReptile = animalDAO.selectAllBySpecies("Reptile");
-		request.setAttribute("listReptile", listReptile);
-		List<Animal> listHorse = animalDAO.selectAllBySpecies("Horse");
-		request.setAttribute("listHorse", listHorse);
-		List<Animal> listOther = animalDAO.selectAllBySpecies("Other");
-		request.setAttribute("listOther", listOther);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-list.jsp");
-		dispatcher.forward(request, response);
+	
+	private void totalAnimals(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException{	
+		int total = 0;
+		for (String str : species) {
+			total = total + animalDAO.countAnimals(str);
+		}
+		request.setAttribute("totalAnimals", total);
 	}
+////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private void showValid(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
@@ -366,6 +362,24 @@ public class MainController extends HttpServlet {
 	
 	//Animal/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	private void listAnimals(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<Animal> listDog = animalDAO.selectAllBySpecies("Dog");
+		request.setAttribute("listDog", listDog);
+		List<Animal> listCat = animalDAO.selectAllBySpecies("Cat");
+		request.setAttribute("listCat", listCat);
+		List<Animal> listBird = animalDAO.selectAllBySpecies("Bird");
+		request.setAttribute("listBird", listBird);
+		List<Animal> listReptile = animalDAO.selectAllBySpecies("Reptile");
+		request.setAttribute("listReptile", listReptile);
+		List<Animal> listHorse = animalDAO.selectAllBySpecies("Horse");
+		request.setAttribute("listHorse", listHorse);
+		List<Animal> listOther = animalDAO.selectAllBySpecies("Other");
+		request.setAttribute("listOther", listOther);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-list.jsp");
+		dispatcher.forward(request, response);
+	}
+	
 	private void showNewAnimalForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-form.jsp");
@@ -379,8 +393,17 @@ public class MainController extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-form.jsp");
 		request.setAttribute("animal", existingAnimal);
 		dispatcher.forward(request, response);
-
 	}
+	
+	private void showProfile(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Animal existingAnimal = animalDAO.selectAnimal(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("animal/animal-profile.jsp");
+		request.setAttribute("animal", existingAnimal);
+		dispatcher.forward(request, response);
+	}
+	
 
 	private void insertAnimal(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 		
