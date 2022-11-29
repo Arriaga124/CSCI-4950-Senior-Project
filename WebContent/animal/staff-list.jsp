@@ -38,12 +38,13 @@
 		
 			<h3 class = "text-center">Staff and Volunteers</h3>
 			<hr>
-			<div class = "container text-right">
-				<a href = "<%=request.getContextPath()%>/newStaff" class = "btn btn-success">Add Staff</a>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  				<input type="text" id="myInput" class="mr-5 w-50" onkeyup="searchTableColumns()" placeholder="Search by ID, Name or Position" title="Search Staff">
+  				<a href = "<%=request.getContextPath()%>/newStaff" class = "btn btn-success">Add Staff</a>
 			</div>
 			<br>
 			<h3>Staff and Volunteers</h3>
-			<table class = "table table-bordered">
+			<table id="staffTable" class = "table table-bordered">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -67,7 +68,7 @@
 							<td><c:out value="${staff.phone}" /></td>
 							<td>
 							<a href="editStaff?id=<c:out value='${staff.id}' />" title="Edit"><i class="material-icons text-secondary" style="font-size:25px;">edit</i></a>
-							<a href="deleteStaff?id=<c:out value='${staff.id}' />" title="Delete"><span class="material-symbols-outlined text-danger ml-2">delete</span></a>
+							<a href="deleteStaff?id=<c:out value='${staff.id}' />" title="Delete"><span class="material-symbols-outlined text-danger ml-2 ">delete</span></a>	
 							</td>
 						</tr>
 					</c:forEach>
@@ -79,7 +80,36 @@
 			<br>
 		</div>
 	</div>
-
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	
+	<script>
+
+	function searchTableColumns() {
+ 
+  	    var input, filter, table, tr, i, j, column_length, count_td;
+  	    column_length = document.getElementById('staffTable').rows[0].cells.length;
+  	    input = document.getElementById("myInput");
+ 	    filter = input.value.toUpperCase();
+ 	    table = document.getElementById("staffTable");
+    	tr = table.getElementsByTagName("tr");
+    	for (i = 1; i < tr.length; i++) { // except first(heading) row
+      	count_td = 0;
+      	for(j = 0; j < column_length-3; j++){ // except last 3 columns
+          	td = tr[i].getElementsByTagName("td")[j];
+          	if (td) {
+            	if ( td.innerHTML.toUpperCase().indexOf(filter) > -1)  {            
+              	count_td++;
+            	}
+          	}
+      	}
+      	if(count_td > 0){
+          	tr[i].style.display = "";
+      	} else {
+         	 tr[i].style.display = "none";
+      	}
+    	}
+    
+  	}
+	</script>
 </body>
 </html>

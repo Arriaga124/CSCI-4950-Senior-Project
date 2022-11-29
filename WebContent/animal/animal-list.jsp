@@ -36,16 +36,15 @@
 			<h3 class = "text-center">All Pets</h3>
 			<hr>
 			
-			
-			<div class = "container text-right">
-			<a href = "<%=request.getContextPath()%>/newAnimal" class = "btn btn-success mr-2">Enroll New Animal</a>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  				<input type="text" id="myInput" class="mr-5 w-50" onkeyup="searchTables()" placeholder="Search by ID or Name" title="Search Animals">
+  				<a href = "<%=request.getContextPath()%>/newAnimal" class = "btn btn-success mr-2">Enroll New Animal</a>
 				<a href = "<%=request.getContextPath()%>/check" class = "btn btn-success">Verify</a>
 			</div>
-			
-			
+					
 			<br>
 			<h3>Dogs</h3>
-			<table class = "table table-bordered">
+			<table class = "table table-bordered animalTable">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -78,7 +77,7 @@
 			
 			<br>
 			<h3>Cats</h3>
-			<table class = "table table-bordered">
+			<table class = "table table-bordered animalTable">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -111,7 +110,7 @@
 
 			<br>
 			<h3>Birds</h3>
-			<table class = "table table-bordered">
+			<table class = "table table-bordered animalTable">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -144,7 +143,7 @@
 
 			<br>
 			<h3>Reptiles</h3>
-			<table class = "table table-bordered">
+			<table class = "table table-bordered animalTable">
 				<thead class = "thead-light"> 
 					<tr>
 						<th>ID</th>
@@ -177,7 +176,7 @@
 
 			<br>
 			<h3>Horses</h3>
-			<table class = "table table-bordered">
+			<table class = "table table-bordered animalTable">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -210,7 +209,7 @@
 
 			<br>
 			<h3>Other</h3>
-			<table class = "table table-bordered">
+			<table class = "table table-bordered animalTable">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -226,8 +225,8 @@
 						<tr>
 							<td><c:out value="${other.id}" /></td>
 							<td><c:out value="${other.name}" /></td>
-							<td><c:out value="${other.supplies_needed}" /></td>
-							<td><c:out value="${other.care}" /></td>
+							<td><c:out value="${other.supplies_needed} Meal(s)" /></td>
+							<td><c:out value="${other.care} Hours(s)" /></td>
 							<td><c:out value="${other.notes}" /></td>
 							<td class="text-left">
 								<a href="showProfile?id=<c:out value='${other.id}' />" title="View Full Profile"><span class="material-symbols-outlined text-warning ml-2">folder_open</span></a>
@@ -244,5 +243,38 @@
 		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	
+	<script>
+	function searchTables() {
+	    // Declare variables
+	    var input, filter, tables, tr, td, i;
+	    input = document.getElementById("myInput");
+	    filter = input.value.toUpperCase();
+	    tables = document.getElementsByClassName("animalTable");
+	    
+	    for(var k = 0; k < tables.length; k++) {
+	        tr = tables[k].getElementsByTagName("tr");
+	        // Loop through all table rows, and hide those who don't match the search query
+	        for (i = 0; i < tr.length; i++) {
+	            if (!tr[i].classList.contains('header')) {
+	                td = tr[i].getElementsByTagName("td"),
+	                    match = false;
+	                for (j = 0; j < td.length -4; j++) {
+	                    if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+	                        match = true;
+	                        break;
+	                    }
+	                }
+	                if (!match) {
+	                    tr[i].style.display = "none";
+	                } else {
+	                    tr[i].style.display = "";
+	                    tr[0].style.display = "";
+	                }
+	            }
+	        }
+	    }
+	}
+	</script>
 </body>
 </html>

@@ -38,12 +38,14 @@
 	
 			<h3 class = "text-center">Supplies</h3>
 			<hr>
-			<div class = "container text-right">
-				<a href = "<%=request.getContextPath()%>/newSupply" class = "btn btn-success">Add Supplies</a>
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  				<input type="text" id="myInput" class="mr-5 w-50" onkeyup="searchTableColumns()" placeholder="Search by Name, Type or Animal" title="Search Supplies">
+  				<a href = "<%=request.getContextPath()%>/newSupply" class = "btn btn-success">Add Supplies</a>
 			</div>
 			<br>
+			
 			<h3>Supplies</h3>
-			<table class = "table table-bordered">
+			<table id="supplyTable" class = "table table-bordered">
 				<thead class = "thead-light">
 					<tr>
 						<th>ID</th>
@@ -83,5 +85,35 @@
 	</div>
 
 	<jsp:include page="../common/footer.jsp"></jsp:include>
+	
+	<script>
+
+	function searchTableColumns() {
+ 
+  	    var input, filter, table, tr, i, j, column_length, count_td;
+  	    column_length = document.getElementById('supplyTable').rows[0].cells.length;
+  	    input = document.getElementById("myInput");
+ 	    filter = input.value.toUpperCase();
+ 	    table = document.getElementById("supplyTable");
+    	tr = table.getElementsByTagName("tr");
+    	for (i = 1; i < tr.length; i++) { // except first(heading) row
+      	count_td = 0;
+      	for(j = 1; j < column_length-2; j++){ // except first and last 2 columns
+          	td = tr[i].getElementsByTagName("td")[j];
+          	if (td) {
+            	if ( td.innerHTML.toUpperCase().indexOf(filter) > -1)  {            
+              	count_td++;
+            	}
+          	}
+      	}
+      	if(count_td > 0){
+          	tr[i].style.display = "";
+      	} else {
+         	 tr[i].style.display = "none";
+      	}
+    	}
+    
+  	}
+	</script>
 </body>
 </html>
