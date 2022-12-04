@@ -16,6 +16,11 @@
 	crossorigin = "anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 	<%@include file="/css/styles.css"%>
 	table{
@@ -34,13 +39,25 @@
 			
 		<div class = "container">
 			<h3 class = "text-center">All Pets</h3>
-			<hr>
 			
-			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			
+  
+			
+			
+			<hr>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
   				<input type="text" id="myInput" class="mr-5 w-50" onkeyup="searchTables()" placeholder="Search by ID or Name" title="Search Animals">
   				<a href = "<%=request.getContextPath()%>/newAnimal" class = "btn btn-success mr-2">Enroll New Animal</a>
 				<a href = "<%=request.getContextPath()%>/check" class = "btn btn-success">Verify</a>
+			<button type="button" class = "btn btn-success ml-2" style = "color: white" data-toggle="collapse" data-target="#collapseHelp">?</button>
 			</div>
+			
+			<div class="collapse mt-2" id="collapseHelp">
+			<div class="card card-body">
+  			All pets are displayed by type down below. There is a Enroll animal button to add animals, a search bar for direct searching, Also on each animal entry there three additional icons to edit - view in depth - and delete. Lastly there is a verify button that will perform a check upon clicking to ensure the animals have the supplies and care needed. To get started click the Enroll New Animal Button!
+   			</div>
+   			</div>
+		
 					
 			<br>
 			<h3>Dogs</h3>

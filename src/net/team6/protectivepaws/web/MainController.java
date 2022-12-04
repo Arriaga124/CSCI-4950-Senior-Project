@@ -349,6 +349,7 @@ public class MainController extends HttpServlet {
 			careValidity= false;
 			request.setAttribute("careValidity", careValidity);
 		}
+		
 		HttpSession session = request.getSession();
 		String temp = ""+java.time.LocalDate.now();
 		session.setAttribute("checkedDate", temp);

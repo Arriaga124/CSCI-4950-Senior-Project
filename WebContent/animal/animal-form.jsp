@@ -61,13 +61,13 @@
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Amount of Needed Supplies* (Meals required daily)</label> <input type="number"
+					<label>Amount of Needed Supplies* (Meals required)</label> <input type="number"
 						value="<c:out value='${animal.supplies_needed}' />" class="form-control"
 						name="supplies_needed" required="required">
 				</fieldset>
 
 				<fieldset class="form-group">
-					<label>Care Needed* (Hours of care needed daily)</label> <input type="number"
+					<label>Care Needed* (Hours of care needed)</label> <input type="number"
 						value="<c:out value='${animal.care}' />" class="form-control"
 						name="care" required="required">
 				</fieldset>
