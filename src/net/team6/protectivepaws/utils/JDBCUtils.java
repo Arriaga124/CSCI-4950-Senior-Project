@@ -9,8 +9,8 @@ import java.time.LocalDate;
 public class JDBCUtils {
 
 	private static String jdbcURL = "jdbc:mysql://localhost:3306/protectivepaws";
-	private static String jdbcUsername = "root";
-	private static String jdbcPassword = "Ca60090!";
+	private static String jdbcUsername = "username";
+	private static String jdbcPassword = "password";
 
 	public static Connection getConnection() {
 		Connection connection = null;
